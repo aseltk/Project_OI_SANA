@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OI_SANA | Модуль 05 - Қосымша материалдар</title>
+  <style>
+    :root {
+      --blue-deep: #061b46;
+      --blue-main: #0a234f;
+      --emerald: #10b981;
+      --emerald-dark: #047857;
+      --emerald-soft: #d1fae5;
+      --white: #ffffff;
+      --gray-bg: #f4f7fb;
+      --gray-card: #f8fafc;
+      --gray-border: #d9e2ec;
+      --text-main: #172033;
+      --text-muted: #64748b;
+      --shadow: 0 18px 45px rgba(6, 27, 70, 0.11);
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --radius-md: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background:
+        radial-gradient(circle at 12% 8%, rgba(16, 185, 129, 0.12), transparent 30%),
+        linear-gradient(180deg, #f7fbff 0%, var(--gray-bg) 42%, #eef4fb 100%);
+      color: var(--text-main);
+      line-height: 1.58;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    :focus-visible {
+      outline: 3px solid rgba(16, 185, 129, 0.45);
+      outline-offset: 3px;
+    }
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: rgba(255, 255, 255, 0.94);
+      border-bottom: 1px solid var(--gray-border);
+      backdrop-filter: blur(18px);
+    }
+
+    .header-inner {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 22px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 290px;
+    }
+
+    .logo-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--emerald), var(--emerald-dark));
+      color: var(--white);
+      font-size: 21px;
+      font-weight: 900;
+      box-shadow: 0 12px 28px rgba(16, 185, 129, 0.27);
+    }
+
+    .logo-text strong {
+      display: block;
+      color: var(--blue-deep);
+      font-size: 21px;
+      line-height: 1;
+    }
+
+    .logo-text span {
+      display: block;
+      margin-top: 6px;
+      color: var(--text-muted);
+      font-size: 12px;
+      line-height: 1.3;
+    }
+
+    .top-nav {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      color: #334155;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .top-nav a:hover {
+      color: var(--emerald-dark);
+    }
+
+    .page {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 28px 24px 46px;
+    }
+
+    .hero,
+    .section-card {
+      background: var(--white);
+      border: 1px solid var(--gray-border);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      overflow: hidden;
+      margin-bottom: 22px;
+    }
+
+    .hero-main {
+      padding: 34px 36px;
+      color: var(--white);
+      background:
+        radial-gradient(circle at 88% 16%, rgba(16, 185, 129, 0.32), transparent 30%),
+        linear-gradient(135deg, var(--blue-deep), var(--blue-main));
+    }
+
+    .hero-kicker {
+      width: fit-content;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 16px;
+      padding: 8px 13px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: #a7f3d0;
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .hero-kicker::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--emerald);
+    }
+
+    .hero h1 {
+      max-width: 900px;
+      font-size: 38px;
+      line-height: 1.14;
+      letter-spacing: 0;
+    }
+
+    .hero p {
+      max-width: 910px;
+      margin-top: 14px;
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 16px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 16px 18px;
+      background: var(--gray-card);
+      border-top: 1px solid var(--gray-border);
+    }
+
+    .btn {
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 11px 16px;
+      border-radius: 14px;
+      background: #edf2f7;
+      color: var(--blue-main);
+      font-size: 14px;
+      font-weight: 900;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 22px rgba(6, 27, 70, 0.1);
+    }
+
+    .btn.emerald {
+      background: var(--emerald);
+      color: var(--white);
+    }
+
+    .content-grid {
+      display: grid;
+      gap: 22px;
+    }
+
+    .section-card {
+      padding: 24px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .section-title {
+      color: var(--blue-deep);
+      font-size: 26px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .section-subtitle {
+      max-width: 860px;
+      margin-top: 8px;
+      color: var(--text-muted);
+      font-size: 15px;
+    }
+
+    .section-badge {
+      flex: 0 0 auto;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--emerald-soft);
+      color: var(--emerald-dark);
+      font-size: 12px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .theory-box {
+      display: grid;
+      gap: 14px;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(180deg, rgba(248, 250, 252, 0.98), rgba(255, 255, 255, 0.98));
+      border: 1px solid var(--gray-border);
+    }
+
+    .theory-box p {
+      color: var(--text-muted);
+      font-size: 15px;
+    }
+
+    .theory-box strong {
+      color: var(--blue-deep);
+    }
+
+    .card-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .dictionary-grid {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+
+    .platform-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .method-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .info-card,
+    .platform-card,
+    .method-card,
+    .list-card {
+      background: var(--white);
+      border: 1px solid var(--gray-border);
+      border-radius: var(--radius-lg);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+
+    .info-card:hover,
+    .platform-card:hover,
+    .method-card:hover,
+    .list-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(16, 185, 129, 0.45);
+      box-shadow: 0 16px 30px rgba(6, 27, 70, 0.1);
+    }
+
+    .info-card {
+      padding: 16px;
+    }
+
+    .info-card strong {
+      display: block;
+      color: var(--blue-deep);
+      font-size: 16px;
+      margin-bottom: 7px;
+    }
+
+    .info-card p {
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .platform-card {
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 18px;
+    }
+
+    .platform-card h3,
+    .method-card h3,
+    .list-card h3 {
+      color: var(--blue-deep);
+      font-size: 18px;
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+
+    .platform-card p,
+    .method-card p {
+      margin-top: 9px;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    .platform-card .btn {
+      width: fit-content;
+    }
+
+    .method-card {
+      padding: 18px;
+    }
+
+    .method-top {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .method-badge {
+      width: 38px;
+      height: 38px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      border-radius: 13px;
+      background: var(--emerald-soft);
+      color: var(--emerald-dark);
+      font-weight: 900;
+    }
+
+    .two-column {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .list-card {
+      padding: 20px;
+      background: var(--gray-card);
+    }
+
+    .list-card ol,
+    .list-card ul {
+      margin-top: 14px;
+      padding-left: 20px;
+      display: grid;
+      gap: 9px;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    .list-card li::marker {
+      color: var(--emerald-dark);
+      font-weight: 900;
+    }
+
+    @media (max-width: 1100px) {
+      .dictionary-grid,
+      .platform-grid,
+      .method-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .header-inner {
+        padding: 12px 16px;
+      }
+
+      .logo {
+        min-width: auto;
+      }
+
+      .logo-text span,
+      .top-nav {
+        display: none;
+      }
+
+      .page {
+        padding: 16px;
+      }
+
+      .hero,
+      .section-card {
+        border-radius: 22px;
+      }
+
+      .hero-main {
+        padding: 26px 20px;
+      }
+
+      .hero h1 {
+        font-size: 29px;
+      }
+
+      .hero-actions,
+      .section-head {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .section-card {
+        padding: 18px;
+      }
+
+      .dictionary-grid,
+      .platform-grid,
+      .method-grid,
+      .two-column {
+        grid-template-columns: 1fr;
+      }
+
+      .platform-card .btn,
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a class="logo" href="course.html" aria-label="Курс картасына қайту">
+        <div class="logo-icon">OS</div>
+        <div class="logo-text">
+          <strong>OI_SANA</strong>
+          <span>логикалық-алгоритмдік ойлауды Python арқылы дамыту</span>
+        </div>
+      </a>
+      <nav class="top-nav" aria-label="Негізгі навигация">
+        <a href="module_05.html">Модуль 05</a>
+        <a href="course.html">Курс картасы</a>
+        <a href="index.html">Басты бет</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="hero">
+      <div class="hero-main">
+        <div class="hero-kicker">Модуль 05 · Қосымша материалдар</div>
+        <h1>Циклдер тақырыбына арналған ресурс және әдістемелік жинақ</h1>
+        <p>
+          Бұл бет студентке қысқаша теория мен негізгі ұғымдарды қайталауға, ал болашақ информатика мұғаліміне
+          Python оқытуда қолдануға болатын платформалар мен әдістемелік тәсілдерді таңдауға көмектеседі.
+        </p>
+      </div>
+      <div class="hero-actions">
+        <a class="btn" href="module_05.html">Модульге қайту</a>
+        <a class="btn" href="course.html">Курс картасы</a>
+        <a class="btn emerald" href="#platforms">Платформаларға өту</a>
+      </div>
+    </section>
+
+    <div class="content-grid">
+      <section class="section-card" id="theory">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">Қысқаша теория</h2>
+            <p class="section-subtitle">Модуль 05 тақырыбы бойынша негізгі түсінік.</p>
+          </div>
+          <span class="section-badge">Оқу блогы</span>
+        </div>
+
+        <div class="theory-box"><p><strong>Циклдер</strong> тақырыбы Python бағдарламасында есепті логикалық құрылымға келтіруге көмектеседі.</p><p>Бұл модульде студент қайталанатын әрекеттерді for және while циклдері арқылы модельдеп, есепті ықшам алгоритмге айналдырады.</p><p>Бұл тақырыпта студент кодтың орындалу ретін, дерек енгізу мен нәтиже шығаруды, айнымалылардың өзгерісін және шешімнің дұрыстығын түсіндіреді.</p><p>Болашақ мұғалім үшін маңыздысы - дайын жауапты көрсету емес, оқушыға есеп шартын талдату, алгоритм қадамдарын айтқызу және трассировка арқылы дәлелдету.</p></div>
+      </section>
+
+      <section class="section-card" id="dictionary">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">Негізгі ұғымдар сөздігі</h2>
+            <p class="section-subtitle">Циклдер мен қайталану алгоритмдерін түсінуге қажет қысқа анықтамалар.</p>
+          </div>
+          <span class="section-badge">Оқу блогы</span>
+        </div>
+
+        <div class="card-grid dictionary-grid">
+          <article class="info-card"><strong>Цикл</strong><p>Бір әрекетті бірнеше рет қайталап орындауға арналған алгоритмдік құрылым.</p></article>
+          <article class="info-card"><strong>for</strong><p>Қайталану саны немесе тізбек белгілі болғанда қолданылатын цикл операторы.</p></article>
+          <article class="info-card"><strong>while</strong><p>Шарт ақиқат болып тұрған кезде қайталанатын цикл операторы.</p></article>
+          <article class="info-card"><strong>Итерация</strong><p>Циклдің бір рет орындалуы. Әр қайталау бір итерация деп аталады.</p></article>
+          <article class="info-card"><strong>Цикл денесі</strong><p>Әр қайталанған сайын орындалатын командалар блогы.</p></article>
+          <article class="info-card"><strong>range()</strong><p>Сандар тізбегін құрып, for циклінде қайталану санын басқаруға көмектесетін функция.</p></article>
+          <article class="info-card"><strong>Санауыш</strong><p>Цикл барысында мәні өзгеріп, қайталану ретін бақылауға көмектесетін айнымалы.</p></article>
+          <article class="info-card"><strong>Жинақтаушы айнымалы</strong><p>Қосынды, көбейтінді немесе нәтиже жинау үшін цикл ішінде өзгеретін айнымалы.</p></article>
+          <article class="info-card"><strong>Тоқтау шарты</strong><p>while циклінің қашан аяқталатынын анықтайтын шарт.</p></article>
+          <article class="info-card"><strong>Шексіз цикл</strong><p>Тоқтау шарты дұрыс қойылмағандықтан тоқтамай орындала беретін цикл.</p></article>
+        </div>
+      </section>
+
+      <section class="section-card" id="platforms">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">Python үйренуге арналған платформалар</h2>
+            <p class="section-subtitle">Студенттің өздігінен оқуына және мұғалімнің сабаққа ресурс таңдауына арналған пайдалы сайттар.</p>
+          </div>
+          <span class="section-badge">Ресурстар</span>
+        </div>
+
+        <div class="card-grid platform-grid">
+          <article class="platform-card"><div><h3>Python.org Beginner’s Guide</h3><p>Python тілін ресми дереккөз арқылы бастауға арналған негізгі нұсқаулық.</p></div><a class="btn emerald" href="https://www.python.org/about/gettingstarted/" target="_blank" rel="noopener">Платформаны ашу</a></article>
+          <article class="platform-card"><div><h3>Code.org Python Lab</h3><p>Оқушыларға браузерде Python кодын жазуға және тексеруге мүмкіндік беретін оқу ортасы.</p></div><a class="btn emerald" href="https://code.org/en-US/tools/python-lab" target="_blank" rel="noopener">Платформаны ашу</a></article>
+          <article class="platform-card"><div><h3>JetBrains Academy Introduction to Python</h3><p>Python негіздерін қысқа сабақтар мен практикалық тапсырмалар арқылы үйрететін платформа.</p></div><a class="btn emerald" href="https://academy.jetbrains.com/course/16630" target="_blank" rel="noopener">Платформаны ашу</a></article>
+          <article class="platform-card"><div><h3>LearnPython.org</h3><p>Python синтаксисін интерактивті түрде үйренуге арналған қарапайым ресурс.</p></div><a class="btn emerald" href="https://www.learnpython.org/" target="_blank" rel="noopener">Платформаны ашу</a></article>
+          <article class="platform-card"><div><h3>Programiz Python Programming</h3><p>Python бойынша түсінікті теория, мысалдар және негізгі тақырыптар берілген оқу сайты.</p></div><a class="btn emerald" href="https://www.programiz.com/python-programming" target="_blank" rel="noopener">Платформаны ашу</a></article>
+          <article class="platform-card"><div><h3>Google’s Python Class</h3><p>Google ұсынған Python бойынша тегін оқу материалдары мен жаттығулар.</p></div><a class="btn emerald" href="https://developers.google.com/edu/python" target="_blank" rel="noopener">Платформаны ашу</a></article>
+          <article class="platform-card"><div><h3>Coursera Google Crash Course on Python</h3><p>Python негіздерін жүйелі түрде үйренуге арналған онлайн курс.</p></div><a class="btn emerald" href="https://www.coursera.org/learn/python-crash-course" target="_blank" rel="noopener">Платформаны ашу</a></article>
+          <article class="platform-card"><div><h3>freeCodeCamp Scientific Computing with Python</h3><p>Python арқылы практикалық есептер мен шағын жобалар орындауға арналған курс.</p></div><a class="btn emerald" href="https://www.freecodecamp.org/learn/scientific-computing-with-python/" target="_blank" rel="noopener">Платформаны ашу</a></article>
+          <article class="platform-card"><div><h3>Kaggle Learn Python</h3><p>Data Science бағытына кіріспе ретінде Python негіздерін үйрететін қысқа курс.</p></div><a class="btn emerald" href="https://www.kaggle.com/learn/python" target="_blank" rel="noopener">Платформаны ашу</a></article>
+          <article class="platform-card"><div><h3>W3Schools Python Tutorial</h3><p>Python синтаксисін тез қарап, мысалдар арқылы түсінуге арналған анықтамалық ресурс.</p></div><a class="btn emerald" href="https://www.w3schools.com/python/" target="_blank" rel="noopener">Платформаны ашу</a></article>
+        </div>
+      </section>
+
+      <section class="section-card" id="methods">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">Балаларға бағдарламалауды үйрету әдістері</h2>
+            <p class="section-subtitle">Болашақ информатика мұғалімі сабақта қолдана алатын әдістемелік тәсілдер.</p>
+          </div>
+          <span class="section-badge">Әдістеме</span>
+        </div>
+
+        <div class="card-grid method-grid">
+          <article class="method-card"><div class="method-top"><span class="method-badge">1</span><h3>PRIMM әдісі</h3></div><p>Оқушы алдымен код нәтижесін болжайды, кейін кодты іске қосады, зерттейді, өзгертеді және соңында өз кодын жазады. Бұл тәсіл кодты бірден жазудан бұрын түсінуге үйретеді.</p></article>
+          <article class="method-card"><div class="method-top"><span class="method-badge">2</span><h3>Parsons тапсырмалары</h3></div><p>Код жолдары араластырылып беріледі, оқушы оларды дұрыс ретке келтіреді. Бұл әдіс синтаксиске емес, алгоритмнің логикалық құрылымына назар аудартады.</p></article>
+          <article class="method-card"><div class="method-top"><span class="method-badge">3</span><h3>Трассировка</h3></div><p>Кодтың әр жолы орындалған сайын айнымалы мәндерінің қалай өзгеретінін бақылау. Бұл оқушыға бағдарламаның ішкі логикасын түсінуге көмектеседі.</p></article>
+          <article class="method-card"><div class="method-top"><span class="method-badge">4</span><h3>Debugging арқылы оқыту</h3></div><p>Оқушы дайын кодтағы қатені тауып, себебін түсіндіреді және дұрыс нұсқасын ұсынады. Бұл логикалық талдау мен қатені түзету дағдысын дамытады.</p></article>
+          <article class="method-card"><div class="method-top"><span class="method-badge">5</span><h3>Worked examples</h3></div><p>Дайын шешілген мысалдар арқылы оқушы есептің шешілу қадамдарын көреді. Бұл бастапқы деңгейдегі оқушылардың когнитивтік жүктемесін азайтады.</p></article>
+          <article class="method-card"><div class="method-top"><span class="method-badge">6</span><h3>Жобалық тапсырмалар</h3></div><p>Оқушы алған білімін шағын жоба жасау арқылы қолданады. Мысалы: калькулятор, шағын ойын, тест жүйесі, деректерді есептеу бағдарламасы.</p></article>
+        </div>
+      </section>
+
+      <section class="section-card" id="assessment">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">Тапсырма беру және тексеру тәсілдері</h2>
+            <p class="section-subtitle">Сыныпта есепті кезең-кезеңімен беру және оқушы жұмысын бағалау үшін қолдануға болатын құрылым.</p>
+          </div>
+          <span class="section-badge">Бағалау</span>
+        </div>
+
+        <div class="two-column">
+          <article class="list-card">
+            <h3>Тапсырма беру реті</h3>
+            <ol>
+              <li>Алдымен есеп шартын сөзбен талдату.</li>
+              <li>Кіріс деректерін анықтату.</li>
+              <li>Қандай нәтиже шығатынын нақтылау.</li>
+              <li>Формула немесе алгоритм ретін жаздыру.</li>
+              <li>Содан кейін ғана Python кодын жаздыру.</li>
+              <li>Кодты іске қосып, нәтижені тексерту.</li>
+              <li>Қате болса, оқушыға дайын жауап бермей, бағыттаушы сұрақ қою.</li>
+            </ol>
+          </article>
+
+          <article class="list-card">
+            <h3>Тексеру критерийлері</h3>
+            <ul>
+              <li>Код қатесіз іске қосылады.</li>
+              <li>Нәтиже есеп шартына сәйкес келеді.</li>
+              <li>Айнымалылар дұрыс және түсінікті аталған.</li>
+              <li>Алгоритмнің орындалу реті сақталған.</li>
+              <li>Оқушы кодтың әр жолын түсіндіре алады.</li>
+              <li>Оқушы қатені тауып, оны түзете алады.</li>
+              <li>Код артық күрделендірілмеген.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+    </div>
+  </main>
+</body>
+</html>

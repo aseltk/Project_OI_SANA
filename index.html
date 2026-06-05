@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OI_SANA | Басты бет</title>
+  <style>
+    :root {
+      --blue-deep: #071b3d;
+      --blue-main: #0b2a5b;
+      --blue-soft: #123f7a;
+      --emerald: #10b981;
+      --emerald-dark: #047857;
+      --emerald-soft: #d1fae5;
+      --white: #ffffff;
+      --gray-bg: #f4f7fb;
+      --gray-border: #d9e2ec;
+      --text-main: #172033;
+      --text-muted: #64748b;
+      --shadow-soft: 0 22px 50px rgba(7, 27, 61, 0.16);
+      --shadow-card: 0 14px 35px rgba(7, 27, 61, 0.10);
+      --radius-xl: 32px;
+      --radius-lg: 22px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: var(--gray-bg);
+      color: var(--text-main);
+      line-height: 1.55;
+      text-rendering: optimizeLegibility;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    :focus-visible { outline: 3px solid rgba(16, 185, 129, 0.42); outline-offset: 3px; }
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,.94);
+      border-bottom: 1px solid var(--gray-border);
+      backdrop-filter: blur(16px);
+    }
+    .header-inner {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 14px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .logo { display: flex; align-items: center; gap: 12px; min-width: 250px; }
+    .logo-icon {
+      width: 40px; height: 40px; border-radius: 13px;
+      display: grid; place-items: center;
+      background: linear-gradient(135deg, var(--emerald), var(--emerald-dark));
+      color: var(--white); font-size: 18px; font-weight: 900;
+      box-shadow: 0 10px 20px rgba(16,185,129,.28);
+      flex: 0 0 auto;
+    }
+    .logo-text strong { display: block; color: var(--blue-deep); font-size: 18px; line-height: 1; letter-spacing: 0; }
+    .logo-text span { display: block; max-width: 360px; margin-top: 5px; color: var(--text-muted); font-size: 11px; line-height: 1.25; }
+    .nav { display: flex; align-items: center; gap: 24px; color: #334155; font-size: 14px; font-weight: 700; }
+    .nav a { position: relative; padding: 6px 0; transition: color .2s ease; }
+    .nav a::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; border-radius: 999px; background: var(--emerald); transform: scaleX(0); transform-origin: left; transition: transform .2s ease; }
+    .nav a:hover { color: var(--emerald-dark); }
+    .nav a:hover::after { transform: scaleX(1); }
+    .header-action {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 10px 15px; border-radius: 999px;
+      background: var(--emerald-soft); color: var(--emerald-dark);
+      font-size: 13px; font-weight: 900; white-space: nowrap;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .header-action:hover { transform: translateY(-1px); box-shadow: 0 10px 20px rgba(16,185,129,.16); }
+    .header-action span { width: 9px; height: 9px; background: var(--emerald); border-radius: 50%; display: inline-block; }
+
+    .hero { padding: 30px 28px 54px; }
+    .hero-grid {
+      max-width: 1360px; margin: 0 auto;
+      display: grid; grid-template-columns: minmax(0,.92fr) minmax(520px,1.08fr);
+      gap: 24px; align-items: stretch;
+    }
+    .hero-left, .hero-right {
+      min-height: 660px; border-radius: var(--radius-xl); overflow: hidden;
+      position: relative; box-shadow: var(--shadow-soft);
+    }
+    .hero-left {
+      padding: 42px; color: var(--white); display: flex; flex-direction: column;
+      background:
+        radial-gradient(circle at 86% 14%, rgba(16,185,129,.24), transparent 32%),
+        radial-gradient(circle at 4% 96%, rgba(255,255,255,.10), transparent 30%),
+        linear-gradient(135deg, var(--blue-deep) 0%, var(--blue-main) 54%, #09204a 100%);
+    }
+    .hero-left::after { content: ""; position: absolute; right: -92px; bottom: -120px; width: 290px; height: 290px; border-radius: 50%; background: rgba(16,185,129,.12); pointer-events: none; }
+    .hero-kicker {
+      width: fit-content; display: inline-flex; align-items: center; gap: 9px;
+      padding: 8px 12px; border: 1px solid rgba(255,255,255,.16); border-radius: 999px;
+      background: rgba(255,255,255,.08); color: #a7f3d0;
+      font-size: 12px; font-weight: 900; text-transform: uppercase;
+    }
+    .hero-kicker::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--emerald); }
+    .hero-title { max-width: 720px; margin-top: 18px; font-size: 44px; line-height: 1.12; letter-spacing: 0; font-weight: 900; }
+    .hero-title mark { background: transparent; color: var(--emerald); }
+    .hero-description { max-width: 640px; margin-top: 18px; color: rgba(255,255,255,.82); font-size: 17px; }
+    .hero-points { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; max-width: 630px; margin-top: 22px; }
+    .hero-point { display: flex; align-items: flex-start; gap: 9px; padding: 12px; border: 1px solid rgba(255,255,255,.13); border-radius: 16px; background: rgba(255,255,255,.08); color: rgba(255,255,255,.82); font-size: 13px; font-weight: 700; }
+    .hero-point span { width: 22px; height: 22px; border-radius: 8px; display: grid; place-items: center; background: var(--emerald); color: var(--white); font-size: 12px; font-weight: 900; flex: 0 0 auto; }
+
+    .login-card { position: relative; z-index: 1; width: min(100%,470px); margin-top: 30px; padding: 28px; border: 1px solid rgba(255,255,255,.12); border-radius: 26px; background: var(--white); color: var(--text-main); box-shadow: var(--shadow-soft); }
+    .login-badge { position: absolute; top: -18px; right: 24px; padding: 9px 16px; border-radius: 12px; background: linear-gradient(135deg,var(--emerald),var(--emerald-dark)); color: var(--white); font-size: 12px; font-weight: 900; transform: rotate(3deg); box-shadow: 0 12px 25px rgba(16,185,129,.25); }
+    .login-card h2 { color: var(--blue-deep); font-size: 22px; line-height: 1.25; margin-bottom: 7px; }
+    .login-card > p { color: var(--text-muted); font-size: 14px; margin-bottom: 20px; }
+    .form-row { display: grid; gap: 14px; }
+    .form-group label { display: block; margin-bottom: 7px; color: #334155; font-size: 13px; font-weight: 900; }
+    .form-group input { width: 100%; height: 50px; border: 1px solid transparent; border-radius: 14px; outline: none; background: #f1f5f9; padding: 0 15px; color: var(--text-main); font-size: 15px; transition: background .2s ease, border-color .2s ease, box-shadow .2s ease; }
+    .form-group input::placeholder { color: #94a3b8; }
+    .form-group input:focus { background: var(--white); border-color: var(--emerald); box-shadow: 0 0 0 4px rgba(16,185,129,.12); }
+    .form-error { display: none; margin-top: 12px; padding: 11px 13px; border-radius: 14px; background: #fef2f2; color: #b91c1c; font-size: 13px; font-weight: 800; }
+    .form-error.show { display: block; }
+    .form-actions { display: grid; grid-template-columns: 1fr auto; gap: 12px; margin-top: 18px; }
+    .btn { min-height: 50px; border: none; border-radius: 999px; padding: 13px 20px; font-size: 15px; font-weight: 900; transition: transform .2s ease, box-shadow .2s ease, background .2s ease; }
+    .btn-primary { background: linear-gradient(135deg,var(--emerald),var(--emerald-dark)); color: var(--white); box-shadow: 0 14px 28px rgba(16,185,129,.27); }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 18px 32px rgba(16,185,129,.34); }
+    .btn-secondary { min-width: 96px; background: #e8eef5; color: var(--blue-main); }
+    .btn-secondary:hover { transform: translateY(-1px); background: #dbe5ef; }
+    .form-note { display: flex; gap: 8px; margin-top: 14px; color: #7a8798; font-size: 12px; line-height: 1.45; }
+    .form-note::before { content: ""; width: 7px; height: 7px; margin-top: 5px; border-radius: 50%; background: var(--emerald); flex: 0 0 auto; }
+
+    .hero-stats { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; max-width: 660px; margin-top: auto; padding-top: 28px; }
+    .stat-item { min-height: 98px; padding: 16px; border: 1px solid rgba(255,255,255,.14); border-radius: 18px; background: rgba(255,255,255,.09); }
+    .stat-item strong { display: block; color: var(--emerald); font-size: 25px; line-height: 1; }
+    .stat-item span { display: block; margin-top: 8px; color: rgba(255,255,255,.76); font-size: 12px; font-weight: 700; }
+
+    .hero-right { display: flex; align-items: center; justify-content: center; padding: 34px; color: var(--white); background: radial-gradient(circle at 22% 82%, rgba(255,255,255,.20), transparent 30%), linear-gradient(135deg,#047857 0%, var(--emerald) 46%, #34d399 100%); }
+    .hero-right::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px); background-size: 42px 42px; opacity: .34; }
+    .hero-right::after { content: "if • for • def • list • class"; position: absolute; left: 32px; bottom: 30px; color: rgba(255,255,255,.12); font-size: 34px; font-weight: 900; white-space: nowrap; transform: rotate(-4deg); }
+    .preview-platform { position: relative; z-index: 2; width: 100%; max-width: 640px; min-height: 550px; padding: 22px; border: 1px solid rgba(255,255,255,.34); border-radius: 30px; background: rgba(255,255,255,.20); backdrop-filter: blur(16px); box-shadow: 0 34px 75px rgba(7,27,61,.30); animation: previewFloat 5.5s ease-in-out infinite; will-change: transform; }
+    @keyframes previewFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-14px); }
+    }
+    .preview-header { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 16px; margin-bottom: 16px; padding: 16px 18px; border-radius: 22px; background: var(--blue-deep); }
+    .preview-window-dots { display: flex; gap: 7px; }
+    .preview-window-dots span { width: 10px; height: 10px; border-radius: 50%; background: var(--emerald); opacity: .9; }
+    .preview-title strong { display: block; color: var(--white); font-size: 16px; line-height: 1; }
+    .preview-title small { display: block; margin-top: 5px; color: rgba(255,255,255,.62); font-size: 11px; }
+    .preview-status { padding: 7px 11px; border-radius: 999px; background: rgba(16,185,129,.18); color: #a7f3d0; font-size: 12px; font-weight: 900; }
+    .preview-tabs { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-bottom: 16px; }
+    .preview-tabs button { border: none; border-radius: 12px; padding: 10px 8px; background: rgba(255,255,255,.22); color: rgba(255,255,255,.86); font-size: 12px; font-weight: 900; cursor: default; }
+    .preview-tabs button.active { background: var(--blue-deep); color: var(--emerald); }
+    .preview-body { display: grid; grid-template-columns: minmax(0,1.15fr) minmax(210px,.85fr); gap: 14px; }
+    .editor-panel, .result-panel, .mini-progress, .score-card { border: 1px solid rgba(7,27,61,.08); }
+    .editor-panel, .result-panel { padding: 16px; border-radius: 22px; background: rgba(255,255,255,.94); color: var(--blue-deep); }
+    .panel-label { display: inline-flex; margin-bottom: 10px; padding: 6px 10px; border-radius: 999px; background: var(--emerald-soft); color: var(--emerald-dark); font-size: 11px; font-weight: 900; }
+    .code-window { min-height: 210px; padding: 17px; border-radius: 18px; background: var(--blue-deep); color: #d1fae5; box-shadow: inset 0 0 0 1px rgba(255,255,255,.08); font-family: Consolas, monospace; font-size: 13px; line-height: 1.72; overflow-x: auto; }
+    .code-line span, .terminal-output span { color: #6ee7b7; }
+    .run-preview-btn { width: 100%; margin-top: 12px; border: none; border-radius: 14px; padding: 12px 16px; background: linear-gradient(135deg,var(--emerald),var(--emerald-dark)); color: var(--white); font-size: 13px; font-weight: 900; }
+    .terminal-output { margin-bottom: 12px; padding: 14px; border-radius: 16px; background: #06152f; color: #d1fae5; font-family: Consolas, monospace; font-size: 12px; line-height: 1.7; }
+    .success-line { color: #34d399; font-weight: 900; }
+    .test-list { display: grid; gap: 8px; }
+    .test-list div { display: flex; justify-content: space-between; gap: 10px; padding: 9px 10px; border-radius: 12px; background: #f1f5f9; font-size: 12px; }
+    .test-list span { color: var(--text-muted); font-weight: 800; }
+    .test-list strong { color: var(--blue-deep); text-align: right; }
+    .preview-footer { display: grid; grid-template-columns: 1fr 128px; gap: 14px; margin-top: 14px; }
+    .mini-progress { padding: 18px; border-radius: 22px; background: var(--white); color: var(--blue-deep); }
+    .mini-progress h3 { margin-bottom: 13px; font-size: 16px; }
+    .progress-row { display: grid; grid-template-columns: 82px 1fr 42px; align-items: center; gap: 12px; margin-bottom: 10px; font-size: 12px; font-weight: 900; }
+    .progress-row b { color: var(--emerald-dark); font-size: 12px; text-align: right; }
+    .bar { height: 9px; border-radius: 999px; background: #e2e8f0; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: inherit; background: linear-gradient(90deg,var(--emerald),var(--emerald-dark)); }
+    .score-card { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px; padding: 18px; border-radius: 22px; background: var(--blue-deep); color: var(--white); }
+    .score-card strong { color: var(--emerald); font-size: 38px; line-height: 1; }
+    .score-card span { color: rgba(255,255,255,.72); font-size: 12px; font-weight: 900; text-align: center; }
+
+    .section { padding: 76px 28px; background: var(--white); }
+    .section.alt { background: var(--gray-bg); }
+    .section-inner { max-width: 1280px; margin: 0 auto; }
+    .section-heading { max-width: 800px; margin-bottom: 34px; }
+    .section-label { display: inline-flex; margin-bottom: 10px; color: var(--emerald-dark); font-size: 13px; font-weight: 900; text-transform: uppercase; letter-spacing: 0; }
+    .section-heading h2 { color: var(--blue-deep); font-size: 34px; line-height: 1.2; letter-spacing: 0; }
+    .section-heading p { margin-top: 14px; color: var(--text-muted); font-size: 17px; }
+    .info-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; }
+    .info-card { min-height: 250px; padding: 28px; border: 1px solid var(--gray-border); border-radius: var(--radius-lg); background: var(--gray-bg); transition: transform .2s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease; }
+    .info-card:hover { transform: translateY(-4px); background: var(--white); box-shadow: var(--shadow-card); border-color: rgba(16,185,129,.35); }
+    .card-icon { width: 48px; height: 48px; border-radius: 16px; background: linear-gradient(135deg,var(--blue-deep),var(--blue-soft)); color: var(--emerald); display: grid; place-items: center; font-size: 22px; font-weight: 900; margin-bottom: 20px; }
+    .info-card h3 { margin-bottom: 10px; color: var(--blue-deep); font-size: 20px; line-height: 1.25; }
+    .info-card p { color: var(--text-muted); font-size: 15px; }
+    .method-grid { display: grid; grid-template-columns: minmax(320px,.95fr) minmax(0,1.05fr); gap: 30px; align-items: stretch; }
+    .method-box { display: flex; flex-direction: column; justify-content: center; padding: 36px; border-radius: var(--radius-xl); background: linear-gradient(135deg,var(--blue-deep),var(--blue-main)); color: var(--white); box-shadow: var(--shadow-card); }
+    .method-box .section-label { color: #a7f3d0; }
+    .method-box h2 { margin-bottom: 16px; font-size: 30px; line-height: 1.22; }
+    .method-box p { color: rgba(255,255,255,.78); font-size: 16px; }
+    .steps-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 18px; }
+    .step-card { min-height: 165px; padding: 24px; border: 1px solid var(--gray-border); border-radius: var(--radius-lg); background: var(--white); transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+    .step-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-card); border-color: rgba(16,185,129,.28); }
+    .step-card span { width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; margin-bottom: 14px; background: var(--emerald); color: var(--white); font-weight: 900; }
+    .step-card h3 { margin-bottom: 8px; color: var(--blue-deep); font-size: 18px; line-height: 1.25; }
+    .step-card p { color: var(--text-muted); font-size: 14px; }
+    .footer { padding: 26px 28px; background: var(--blue-deep); color: var(--white); }
+    .footer-inner { max-width: 1280px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 18px; font-size: 14px; }
+    .footer p { color: rgba(255,255,255,.72); }
+    .footer a { color: #6ee7b7; font-weight: 900; }
+
+    @media (max-width: 1180px) {
+      .nav { display: none; }
+      .hero-grid { grid-template-columns: 1fr; max-width: 920px; }
+      .hero-left, .hero-right { min-height: auto; }
+      .hero-stats { margin-top: 12px; }
+      .info-grid, .method-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 760px) {
+      .header-inner { padding: 12px 18px; }
+      .logo { min-width: auto; }
+      .logo-text strong { font-size: 16px; }
+      .logo-text span { display: none; }
+      .header-action { font-size: 12px; padding: 8px 11px; }
+      .hero { padding: 18px 16px 34px; }
+      .hero-left, .hero-right { border-radius: 24px; }
+      .hero-left { padding: 28px 20px 24px; }
+      .hero-title { font-size: 31px; }
+      .hero-description { font-size: 15px; }
+      .hero-points, .hero-stats, .form-actions, .preview-body, .preview-footer, .steps-grid { grid-template-columns: 1fr; }
+      .login-card { padding: 22px; border-radius: 22px; }
+      .btn-secondary { min-width: 0; }
+      .hero-right { padding: 20px; }
+      .preview-platform { min-height: auto; padding: 16px; border-radius: 24px; animation-name: previewFloatSmall; }
+      @keyframes previewFloatSmall {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-7px); }
+      }
+      .preview-header { grid-template-columns: auto 1fr; }
+      .preview-status { grid-column: 1 / -1; width: fit-content; }
+      .preview-tabs { grid-template-columns: repeat(2,1fr); }
+      .code-window { min-height: auto; font-size: 12px; }
+      .progress-row { grid-template-columns: 76px 1fr 38px; }
+      .section { padding: 54px 16px; }
+      .section-heading h2 { font-size: 26px; }
+      .section-heading p { font-size: 15px; }
+      .info-card, .method-box, .step-card { padding: 22px; }
+      .method-box h2 { font-size: 24px; }
+      .footer-inner { flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 430px) {
+      .header-action { display: none; }
+      .hero-title { font-size: 28px; }
+      .login-badge { right: 18px; }
+      .preview-tabs button { font-size: 11px; }
+      .score-card strong { font-size: 32px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+      .preview-platform { animation: none !important; transform: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="header">
+      <div class="header-inner">
+        <a href="index.html" class="logo" aria-label="OI_SANA басты бет">
+          <div class="logo-icon">OS</div>
+          <div class="logo-text"><strong>OI_SANA</strong><span>логикалық-алгоритмдік ойлау дағдысын дамытуға бағытталған оқу құралы</span></div>
+        </a>
+        <nav class="nav" aria-label="Негізгі мәзір">
+          <a href="index.html">Басты бет</a><a href="#about">Курс туралы</a><a href="#method">Әдістеме</a><a href="teacher.html">Қолданылған әдебиеттер</a>
+        </nav>
+        <a href="course.html" class="header-action"><span aria-hidden="true"></span>Курсқа кіру</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="heroTitle">
+        <div class="hero-grid">
+          <div class="hero-left">
+            <div class="hero-kicker">Python курсы</div>
+            <h1 class="hero-title" id="heroTitle">Python арқылы <mark>логикалық-алгоритмдік ойлау</mark> дағдысын дамыту</h1>
+            <p class="hero-description">Болашақ информатика мұғалімдеріне арналған оқу құралы: алгоритмді түсіну, код жазу, қатені талдау және педагогикалық түсіндіру бір жүйеге біріктірілген.</p>
+            <div class="hero-points" aria-label="Курс ерекшеліктері">
+              <div class="hero-point"><span>1</span>15 модульдік оқу траекториясы</div>
+              <div class="hero-point"><span>2</span>20% теория және 80% практика</div>
+              <div class="hero-point"><span>3</span>Код, тест, қате арқылы оқыту және рефлексия</div>
+              <div class="hero-point"><span>4</span>Прогресс localStorage арқылы сақталады</div>
+            </div>
+            <div class="login-card" id="login">
+              <div class="login-badge">COURSE</div>
+              <h2>Курсқа тіркелу немесе кіру</h2>
+              <p>Аты-жөніңіз бен тобыңызды енгізіңіз. Деректер осы браузерде сақталады.</p>
+              <form id="studentForm" novalidate>
+                <div class="form-row">
+                  <div class="form-group"><label for="studentName">Аты-жөніңіз</label><input type="text" id="studentName" placeholder="Мысалы: Айдана Ермекқызы" autocomplete="name" required /></div>
+                  <div class="form-group"><label for="studentGroup">Топ атауы</label><input type="text" id="studentGroup" placeholder="Мысалы: ИҚ-121" autocomplete="organization" required /></div>
+                </div>
+                <p class="form-error" id="formError" role="alert"></p>
+                <div class="form-actions"><button type="submit" class="btn btn-primary">Курсқа кіру</button><button type="button" class="btn btn-secondary" id="demoLogin">Демо</button></div>
+                <p class="form-note">Нәтижелер кейін CSV/JSON форматына экспорттауға дайын сақталады.</p>
+              </form>
+            </div>
+            <div class="hero-stats">
+              <div class="stat-item"><strong>15</strong><span>оқу модулі</span></div>
+              <div class="stat-item"><strong>6</strong><span>бағалау компоненті</span></div>
+              <div class="stat-item"><strong>100%</strong><span>қазақ тіліндегі интерфейс</span></div>
+            </div>
+          </div>
+
+          <div class="hero-right" aria-label="Платформа көрінісі">
+            <div class="preview-platform">
+              <div class="preview-header">
+                <div class="preview-window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+                <div class="preview-title"><strong>OI_SANA</strong><small>оқу құралы</small></div>
+                <div class="preview-status">Онлайн</div>
+              </div>
+              <div class="preview-tabs" aria-hidden="true"><button class="active" type="button">Код</button><button type="button">Тест</button><button type="button">Нәтиже</button><button type="button">Рефлексия</button></div>
+              <div class="preview-body">
+                <div class="editor-panel">
+                  <div class="panel-label">Python редакторы</div>
+                  <div class="code-window">
+                    <div class="code-line"><span>score</span> = int(input())</div><div class="code-line">if <span>score</span> &gt;= 85:</div><div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;print("жоғары деңгей")</div><div class="code-line">elif <span>score</span> &gt;= 70:</div><div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;print("орта деңгей")</div><div class="code-line">else:</div><div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;print("қолдау қажет")</div>
+                  </div>
+                  <button class="run-preview-btn" type="button">Кодты іске қосу</button>
+                </div>
+                <div class="result-panel">
+                  <div class="panel-label">Орындау нәтижесі</div>
+                  <div class="terminal-output"><p><span>Input:</span> 90</p><p><span>Output:</span> жоғары деңгей</p><p class="success-line">✓ 3/3 тапсырма тексерілді</p></div>
+                  <div class="test-list"><div><span>90</span><strong>жоғары деңгей</strong></div><div><span>75</span><strong>орта деңгей</strong></div><div><span>55</span><strong>қолдау қажет</strong></div></div>
+                </div>
+              </div>
+              <div class="preview-footer">
+                <div class="mini-progress"><h3>Модуль прогресі</h3><div class="progress-row"><span>Теория</span><div class="bar"><div class="bar-fill" style="width:100%"></div></div><b>100%</b></div><div class="progress-row"><span>Код</span><div class="bar"><div class="bar-fill" style="width:82%"></div></div><b>82%</b></div><div class="progress-row"><span>Рефлексия</span><div class="bar"><div class="bar-fill" style="width:64%"></div></div><b>64%</b></div></div>
+                <div class="score-card"><strong>87</strong><span>модуль балы</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="about">
+        <div class="section-inner">
+          <div class="section-heading"><span class="section-label">Курс туралы</span><h2>Python тілін әдістемелік және когнитивтік құрал ретінде меңгеру</h2><p>Курс Python синтаксисін ғана емес, алгоритмдік ойлау әрекеттерін түсіндіруді, бағалауды және оқушыға бейімдеп жеткізуді үйретеді.</p></div>
+          <div class="info-grid">
+            <article class="info-card"><div class="card-icon">1</div><h3>Код жазу және орындау</h3><p>Студент Python интерпретаторында код жазады, іске қосады және нәтижені нақты тесттер арқылы тексереді.</p></article>
+            <article class="info-card"><div class="card-icon">2</div><h3>Логикалық-алгоритмдік ойлау</h3><p>Әр модуль есепті қадамға бөлу, шарт құру, циклді модельдеу, деректерді талдау және шешімді негіздеу дағдыларын дамытады.</p></article>
+            <article class="info-card"><div class="card-icon">3</div><h3>Педагогикалық рефлексия</h3><p>Білім алушы өз шешімін түсіндіріп, болашақ сабақта қолдануға болатын тапсырма немесе әдістемелік түсіндіру құрастырады.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section alt" id="method">
+        <div class="section-inner">
+          <div class="method-grid">
+            <div class="method-box"><span class="section-label">Әдістеме</span><h2>Курс құрылымы: когнитивтік операция, әдістемелік тәсіл және педагогикалық өнім</h2><p>OI_SANA Python-ды тек бағдарламалау тілі ретінде емес, информатика мұғалімінің кәсіби ойлауын дамытатын оқу ортасы ретінде ұсынады.</p></div>
+            <div class="steps-grid">
+              <div class="step-card"><span>1</span><h3>Теория және мысал</h3><p>Қысқа түсіндірме, Python коды және алгоритмдік талдау беріледі.</p></div>
+              <div class="step-card"><span>2</span><h3>Шағын тест</h3><p>Тақырыпты бастапқы түсіну деңгейі бірден тексеріледі.</p></div>
+              <div class="step-card"><span>3</span><h3>Код және қате арқылы үйрену</h3><p>Студент код жазады, қатені табады және себебін түсіндіреді.</p></div>
+              <div class="step-card"><span>4</span><h3>Рефлексия</h3><p>Студент өз ойлау әрекетін сипаттап, педагогикалық тапсырма құрастырады.</p></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer"><div class="footer-inner"><p>© 2026 OI_SANA оқу құралы</p><a href="course.html">Курс картасына өту</a></div></footer>
+  </div>
+
+  <script>
+    const studentForm = document.getElementById("studentForm");
+    const demoLogin = document.getElementById("demoLogin");
+    const formError = document.getElementById("formError");
+    const courseConfig = {
+      projectName: "OI_SANA",
+      technologies: ["HTML", "CSS", "JavaScript", "Pyodide", "localStorage", "CSV export", "JSON export"],
+      language: "kk",
+      storageKeys: { student: "pythonLaoStudent", progress: "pythonLaoProgress", config: "pythonLaoConfig" }
+    };
+    localStorage.setItem(courseConfig.storageKeys.config, JSON.stringify(courseConfig));
+    function createInitialProgress() {
+      return { completedModules: [], moduleScores: {}, reflections: {}, exports: [], lastVisited: "index.html", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() };
+    }
+    function saveStudentData(name, group) {
+      const studentData = { name, group, role: "student", startedAt: new Date().toISOString() };
+      localStorage.setItem(courseConfig.storageKeys.student, JSON.stringify(studentData));
+      if (!localStorage.getItem(courseConfig.storageKeys.progress)) localStorage.setItem(courseConfig.storageKeys.progress, JSON.stringify(createInitialProgress()));
+      return studentData;
+    }
+    function showFormError(message) { if (!formError) return; formError.textContent = message; formError.classList.add("show"); }
+    function clearFormError() { if (!formError) return; formError.textContent = ""; formError.classList.remove("show"); }
+    if (studentForm) {
+      studentForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+        const studentName = document.getElementById("studentName")?.value.trim();
+        const studentGroup = document.getElementById("studentGroup")?.value.trim();
+        if (!studentName || !studentGroup) { showFormError("Аты-жөніңіз бен топ атауын толық енгізіңіз."); return; }
+        clearFormError();
+        saveStudentData(studentName, studentGroup);
+        window.location.href = "course.html";
+      });
+    }
+    if (demoLogin) {
+      demoLogin.addEventListener("click", function () {
+        clearFormError();
+        saveStudentData("Демо студент", "000 топ");
+        window.location.href = "course.html";
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OI_SANA | Модуль 09 - Код жазу</title>
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
+  <style>
+    :root {
+      --blue-deep: #071b3d;
+      --blue-main: #0b2a5b;
+      --blue-soft: #173d73;
+      --emerald: #10b981;
+      --emerald-dark: #047857;
+      --emerald-soft: #d1fae5;
+      --white: #ffffff;
+      --gray-bg: #f4f7fb;
+      --gray-card: #f8fafc;
+      --gray-border: #d9e2ec;
+      --text-main: #172033;
+      --text-muted: #64748b;
+      --red: #c62828;
+      --shadow: 0 18px 45px rgba(7, 27, 61, 0.11);
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background:
+        radial-gradient(circle at 12% 8%, rgba(16, 185, 129, 0.12), transparent 30%),
+        linear-gradient(180deg, #f7fbff 0%, var(--gray-bg) 42%, #eef4fb 100%);
+      color: var(--text-main);
+      line-height: 1.55;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      opacity: 0.58;
+    }
+
+    :focus-visible {
+      outline: 3px solid rgba(16, 185, 129, 0.45);
+      outline-offset: 3px;
+    }
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: rgba(255, 255, 255, 0.94);
+      border-bottom: 1px solid var(--gray-border);
+      backdrop-filter: blur(18px);
+    }
+
+    .header-inner {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 22px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 290px;
+    }
+
+    .logo-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--emerald), var(--emerald-dark));
+      color: var(--white);
+      font-size: 21px;
+      font-weight: 900;
+      box-shadow: 0 12px 28px rgba(16, 185, 129, 0.27);
+    }
+
+    .logo-text strong {
+      display: block;
+      color: var(--blue-deep);
+      font-size: 21px;
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .logo-text span {
+      display: block;
+      margin-top: 6px;
+      color: var(--text-muted);
+      font-size: 12px;
+      line-height: 1.3;
+    }
+
+    .top-nav {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      color: #334155;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .top-nav a:hover {
+      color: var(--emerald-dark);
+    }
+
+    .page {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 28px 24px 46px;
+    }
+
+    .hero,
+    .workspace,
+    .task-board {
+      background: var(--white);
+      border: 1px solid var(--gray-border);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      overflow: hidden;
+      margin-bottom: 22px;
+    }
+
+    .hero-main {
+      padding: 34px 36px;
+      color: var(--white);
+      background:
+        radial-gradient(circle at 88% 16%, rgba(16, 185, 129, 0.32), transparent 30%),
+        linear-gradient(135deg, var(--blue-deep), var(--blue-main));
+    }
+
+    .hero-kicker {
+      width: fit-content;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 16px;
+      padding: 8px 13px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: #a7f3d0;
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .hero-kicker::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--emerald);
+    }
+
+    .hero h1 {
+      max-width: 900px;
+      font-size: 38px;
+      line-height: 1.14;
+      letter-spacing: 0;
+    }
+
+    .hero p {
+      max-width: 900px;
+      margin-top: 14px;
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 16px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 16px 18px;
+      background: var(--gray-card);
+      border-top: 1px solid var(--gray-border);
+    }
+
+    .btn {
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 11px 16px;
+      border-radius: 14px;
+      background: #edf2f7;
+      color: var(--blue-main);
+      font-size: 14px;
+      font-weight: 900;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+    .btn:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 22px rgba(7, 27, 61, 0.1);
+    }
+
+    .btn.primary {
+      background: var(--emerald);
+      color: var(--white);
+    }
+
+    .btn.dark {
+      background: var(--blue-deep);
+      color: var(--white);
+    }
+
+    .status-pill {
+      margin-left: auto;
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: var(--emerald-soft);
+      color: var(--emerald-dark);
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .status-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--emerald);
+    }
+
+    .task-board {
+      margin-bottom: 22px;
+      padding: 22px;
+    }
+
+    .board-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 16px;
+    }
+
+    .board-head h2,
+    .workspace h2 {
+      color: var(--blue-deep);
+      font-size: 24px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .board-head p {
+      max-width: 720px;
+      margin-top: 7px;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    .level-switch {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .level-btn {
+      padding: 10px 13px;
+      border: 1px solid var(--gray-border);
+      border-radius: 999px;
+      background: var(--white);
+      color: var(--blue-main);
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .level-btn.active {
+      border-color: var(--blue-deep);
+      background: var(--blue-deep);
+      color: var(--white);
+    }
+
+    .task-tabs {
+      display: grid;
+      grid-template-columns: repeat(10, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .task-tab {
+      min-height: 42px;
+      padding: 8px 6px;
+      border: 1px solid var(--gray-border);
+      border-radius: 13px;
+      background: var(--gray-card);
+      color: var(--blue-main);
+      font-size: 12px;
+      font-weight: 900;
+      transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+    }
+
+    .task-tab:hover {
+      transform: translateY(-1px);
+      border-color: rgba(16, 185, 129, 0.48);
+      background: var(--white);
+    }
+
+    .task-tab.active {
+      border-color: var(--emerald);
+      background: var(--emerald);
+      color: var(--white);
+    }
+
+    .task-detail {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 280px;
+      gap: 16px;
+      padding: 18px;
+      border: 1px solid var(--gray-border);
+      border-radius: 20px;
+      background: linear-gradient(180deg, rgba(248, 250, 252, 0.98), rgba(255, 255, 255, 0.98));
+    }
+
+    .task-detail[hidden] {
+      display: none;
+    }
+
+    .collapsed-note {
+      padding: 16px 18px;
+      border: 1px dashed var(--gray-border);
+      border-radius: 18px;
+      background: var(--gray-card);
+      color: var(--text-muted);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .collapsed-note[hidden] {
+      display: none;
+    }
+
+    .task-detail h3 {
+      color: var(--blue-deep);
+      font-size: 22px;
+      line-height: 1.25;
+      margin-bottom: 8px;
+    }
+
+    .task-detail p {
+      color: var(--text-muted);
+      font-size: 15px;
+    }
+
+    .task-meta {
+      display: grid;
+      gap: 10px;
+    }
+
+    .meta-card {
+      padding: 13px;
+      border-radius: 16px;
+      background: var(--white);
+      border: 1px solid var(--gray-border);
+    }
+
+    .meta-card strong {
+      display: block;
+      color: var(--blue-deep);
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+
+    .meta-card span,
+    .meta-card code {
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .meta-card code {
+      font-family: Consolas, monospace;
+      white-space: pre-line;
+    }
+
+    .workspace {
+      padding: 22px;
+    }
+
+    .workspace-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .workspace-head p {
+      margin-top: 7px;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    .editor-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .editor-card {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      min-height: 450px;
+      border: 1px solid var(--gray-border);
+      border-radius: 22px;
+      background: var(--gray-card);
+      overflow: hidden;
+    }
+
+    .editor-card.compact {
+      grid-template-rows: auto 160px auto 1fr;
+    }
+
+    .editor-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--gray-border);
+      color: var(--blue-deep);
+      font-size: 14px;
+      font-weight: 900;
+      background: var(--white);
+    }
+
+    .editor-title span {
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 100%;
+      resize: none;
+      border: 0;
+      outline: 0;
+      padding: 16px;
+      background: #06152f;
+      color: #d1fae5;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 14px;
+      line-height: 1.55;
+      tab-size: 4;
+    }
+
+    #stdinArea {
+      min-height: 160px;
+      background: var(--white);
+      color: var(--text-main);
+    }
+
+    .terminal {
+      min-height: 230px;
+      padding: 16px;
+      background: #06152f;
+      color: #d1fae5;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 14px;
+      line-height: 1.55;
+      white-space: pre-wrap;
+      overflow: auto;
+    }
+
+    .terminal.error {
+      color: #fecaca;
+    }
+
+    .run-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .hint {
+      margin-top: 14px;
+      padding: 14px 16px;
+      border-left: 4px solid var(--emerald);
+      border-radius: 15px;
+      background: var(--emerald-soft);
+      color: var(--emerald-dark);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    @media (max-width: 1080px) {
+      .task-tabs {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+      }
+
+      .task-detail,
+      .editor-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .header-inner {
+        padding: 12px 16px;
+      }
+
+      .logo {
+        min-width: auto;
+      }
+
+      .logo-text span,
+      .top-nav {
+        display: none;
+      }
+
+      .page {
+        padding: 16px;
+      }
+
+      .hero,
+      .workspace,
+      .task-board {
+        border-radius: 22px;
+      }
+
+      .hero-main {
+        padding: 26px 20px;
+      }
+
+      .hero h1 {
+        font-size: 29px;
+      }
+
+      .hero-actions,
+      .board-head,
+      .workspace-head {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .status-pill {
+        margin-left: 0;
+      }
+
+      .task-board,
+      .workspace {
+        padding: 16px;
+      }
+
+      .task-tabs {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .task-detail {
+        padding: 14px;
+      }
+
+      .editor-card {
+        min-height: 390px;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a class="logo" href="course.html" aria-label="Курс картасына қайту">
+        <div class="logo-icon">OS</div>
+        <div class="logo-text">
+          <strong>OI_SANA</strong>
+          <span>логикалық-алгоритмдік ойлауды Python арқылы дамыту</span>
+        </div>
+      </a>
+      <nav class="top-nav" aria-label="Негізгі навигация">
+        <a href="module_09.html">Модуль 09</a>
+        <a href="course.html">Курс картасы</a>
+        <a href="index.html">Басты бет</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="hero">
+      <div class="hero-main">
+        <div class="hero-kicker">Модуль 09 · Код жазу</div>
+        <h1>Файлдар және CSV бойынша Python коды</h1>
+        <p>
+          Тапсырманы таңдаңыз, шартын талдаңыз, кодты өзіңіз жазыңыз. Редактор әдейі бос қалдырылды:
+          студент есептің шешу алгоритмін өзі құрып, енгізу және шығару деректері арқылы тексереді.
+        </p>
+      </div>
+      <div class="hero-actions">
+        <a class="btn" href="module_09.html">Модульге қайту</a>
+        <a class="btn" href="course.html">Курс картасы</a>
+        <button class="btn primary" type="button" onclick="saveWork()">Прогресті сақтау</button>
+        <button class="btn dark" type="button" onclick="clearWorkspace()">Редакторды тазарту</button>
+        <div class="status-pill"><span class="status-dot"></span><span id="pyodideStatus">Python жүктелуде...</span></div>
+      </div>
+    </section>
+
+    <section class="task-board" aria-label="Тапсырмалар">
+      <div class="board-head">
+        <div>
+          <h2>20 практикалық тапсырма</h2>
+          <p>1-5 жеңіл, 6-15 орта, 16-20 күрделі деңгей. Әр тапсырма таңдалғанда төмендегі код жазу аймағында шешіледі.</p>
+        </div>
+        <div class="level-switch" aria-label="Деңгей сүзгісі">
+          <button class="level-btn active" type="button" data-level="all" onclick="filterLevel('all')">Барлығы</button>
+          <button class="level-btn" type="button" data-level="easy" onclick="filterLevel('easy')">Жеңіл</button>
+          <button class="level-btn" type="button" data-level="medium" onclick="filterLevel('medium')">Орта</button>
+          <button class="level-btn" type="button" data-level="hard" onclick="filterLevel('hard')">Күрделі</button>
+        </div>
+      </div>
+
+      <div class="task-tabs" id="taskTabs"></div>
+
+      <div class="collapsed-note" id="collapsedNote">
+        Тапсырма шартын көру үшін жоғарыдағы тапсырма батырмасын басыңыз. Қайта бассаңыз, шарт қайтадан жабылады.
+      </div>
+
+      <article class="task-detail" id="taskDetail" hidden>
+        <div>
+          <h3 id="taskTitle"></h3>
+          <p id="taskText"></p>
+        </div>
+        <div class="task-meta">
+          <div class="meta-card">
+            <strong>Деңгей</strong>
+            <span id="taskLevel"></span>
+          </div>
+          <div class="meta-card">
+            <strong>Input үлгісі</strong>
+            <code id="taskInput"></code>
+          </div>
+          <div class="meta-card">
+            <strong>Output үлгісі</strong>
+            <code id="taskOutput"></code>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="workspace" aria-label="Код жазу аймағы">
+      <div class="workspace-head">
+        <div>
+          <h2>Код жазу</h2>
+          <p>Кодты сол жақ блокқа, енгізілетін деректерді оң жақтағы Input блогына жазыңыз. Run батырмасы кодты Pyodide арқылы браузер ішінде орындайды.</p>
+        </div>
+        <button class="btn primary" id="runButton" type="button" onclick="runPython()" disabled>Run</button>
+      </div>
+
+      <div class="editor-grid">
+        <section class="editor-card">
+          <div class="editor-title">
+            <strong>Python редакторы</strong>
+            <span>студент коды</span>
+          </div>
+          <textarea id="codeArea" spellcheck="false" placeholder="Мұнда Python кодын жазыңыз..."></textarea>
+        </section>
+
+        <section class="editor-card compact">
+          <div class="editor-title">
+            <strong>Input</strong>
+            <span>енгізу деректері</span>
+          </div>
+          <textarea id="stdinArea" spellcheck="false" placeholder="Мұнда input() үшін деректерді жазыңыз..."></textarea>
+          <div class="editor-title">
+            <strong>Output</strong>
+            <span>орындау нәтижесі</span>
+          </div>
+          <pre class="terminal" id="outputArea">Python жүктелген соң кодты орындауға болады.</pre>
+        </section>
+      </div>
+
+      <div class="run-row">
+        <button class="btn primary" id="runButtonBottom" type="button" onclick="runPython()" disabled>Run</button>
+        <button class="btn" type="button" onclick="insertSampleInput()">Input үлгісін қою</button>
+        <button class="btn" type="button" onclick="saveWork()">Прогресті сақтау</button>
+      </div>
+
+      <div class="hint">
+        Ескерту: бұл бет автоматты дұрыс/бұрыс тексермейді. Мақсат - студенттің өз кодын жазып, input/output арқылы логикалық тексеру жүргізуі.
+      </div>
+    </section>
+  <section class="task-card pedagogy-reflection" id="pedagogyReflectionBlock">
+  <div class="task-head">
+    <div>
+      <span class="task-label">Педагог рефлексиясы</span>
+      <h2>Орындалған тапсырмалар бойынша педагогикалық талдау</h2>
+      <p>Болашақ мұғалім ретінде осы тапсырмалар оқушының логикалық-алгоритмдік ойлауын қалай дамытатынын қысқаша жазыңыз.</p>
+    </div>
+  </div>
+  <div class="editor-grid">
+    <label>Қай тапсырмалар оқушыға күрделі болуы мүмкін және неге?
+      <textarea id="pedagogyDifficulties" placeholder="Мысалы: 16-20 тапсырмаларда бірнеше қадамды жоспарлау, дерек түрін таңдау немесе шартты талдау қиын болуы мүмкін."></textarea>
+    </label>
+    <label>Мұғалім ретінде қандай бағыттаушы сұрақ қоясыз?
+      <textarea id="pedagogyQuestions" placeholder="Оқушыға дайын жауап бермей, ойландырушы сұрақтар жазыңыз."></textarea>
+    </label>
+  </div>
+  <label>Сабақта қолдану сценарийі
+    <textarea id="pedagogyScenario" placeholder="Бұл тапсырмаларды жұптық жұмыс, трассировка, debugging немесе рефлексиямен қалай байланыстырасыз?"></textarea>
+  </label>
+  <button class="run-btn" type="button" onclick="savePedagogyReflection()">Педагог рефлексиясын сақтау</button>
+  <div id="pedagogyReflectionStatus" class="hint" aria-live="polite"></div>
+</section>
+  </main>
+
+  <script>
+    const MODULE_ID = "module_09";
+    const STORAGE_KEYS = {
+      student: "pythonLaoStudent",
+      progress: "pythonLaoProgress",
+      currentModule: "pythonLaoCurrentModule",
+      moduleState: "pythonLaoModuleState_" + MODULE_ID,
+      codeState: "pythonLaoModuleState_" + MODULE_ID + "_code"
+    };
+
+    const tasks = [
+      { id: 1, level: "easy", title: "1-тапсырма. Жолдарды санау", text: "Көпжолды мәтіндегі жолдар санын есептеңіз.", input: "a\nb\nc", output: "3" },
+      { id: 2, level: "easy", title: "2-тапсырма. CSV бөлу", text: "name,score жолын үтір бойынша бөліп шығарыңыз.", input: "Айша,95", output: "Айша 95" },
+      { id: 3, level: "easy", title: "3-тапсырма. Баға қосындысы", text: "CSV түрінде берілген үш балдың қосындысын табыңыз.", input: "80,90,70", output: "240" },
+      { id: 4, level: "easy", title: "4-тапсырма. Орташа балл", text: "Үтірмен берілген балдардың орташа мәнін есептеңіз.", input: "80,90,100", output: "90.0" },
+      { id: 5, level: "easy", title: "5-тапсырма. Файл атауы", text: "Файл атауы .csv деп аяқталса “CSV”, әйтпесе “басқа”.", input: "data.csv", output: "CSV" },
+      { id: 6, level: "medium", title: "6-тапсырма. Кесте жолын оқу", text: "Аты, пәні, балы берілген жолдан балды шығарыңыз.", input: "Айша,Python,95", output: "95" },
+      { id: 7, level: "medium", title: "7-тапсырма. Бірнеше CSV жолы", text: "Әр жолда name,score. Барлық score қосындысын табыңыз.", input: "A,80\nB,90", output: "170" },
+      { id: 8, level: "medium", title: "8-тапсырма. Ең жоғары балл", text: "CSV жолдарындағы ең жоғары балды табыңыз.", input: "A,80\nB,95\nC,70", output: "95" },
+      { id: 9, level: "medium", title: "9-тапсырма. Бағасы жоғары тауар", text: "product,price жолдарынан бағасы 1000-нан жоғары тауар санын табыңыз.", input: "pen,200\nbook,1500\nbag,5000", output: "2" },
+      { id: 10, level: "medium", title: "10-тапсырма. Бос жолдарды өткізу", text: "Мәтіндегі бос емес жолдар санын табыңыз.", input: "a\n\nb", output: "2" },
+      { id: 11, level: "medium", title: "11-тапсырма. CSV тақырыбын өткізу", text: "Бірінші жол header. Қалған балдардың қосындысын табыңыз.", input: "name,score\nA,80\nB,90", output: "170" },
+      { id: 12, level: "medium", title: "12-тапсырма. Баға фильтрі", text: "Балл 80-нен жоғары оқушылардың атын шығарыңыз.", input: "A,70\nB,90\nC,85", output: "B C" },
+      { id: 13, level: "medium", title: "13-тапсырма. Жолды файлға дайындау", text: "Аты мен балын CSV жолы ретінде шығарыңыз.", input: "Айша\n95", output: "Айша,95" },
+      { id: 14, level: "medium", title: "14-тапсырма. CSV баған саны", text: "Берілген CSV жолында неше баған бар екенін табыңыз.", input: "a,b,c,d", output: "4" },
+      { id: 15, level: "medium", title: "15-тапсырма. Дерек тазалау", text: "Жол басы мен соңындағы бос орындарды алып шығарыңыз.", input: "  Python  ", output: "Python" },
+      { id: 16, level: "hard", title: "16-тапсырма. CSV орташа және фильтр", text: "CSV жолдарында name,score берілген. Орташа мәнді және орташадан жоғары оқушыларды шығарыңыз.", input: "A,100\nB,80\nC,90", output: "90.0\nA 100" },
+      { id: 17, level: "hard", title: "17-тапсырма. Баған бойынша топтау", text: "Пән,балл CSV жолдары беріледі. Әр пәннің орташа балын есептеп шығарыңыз.", input: "Python,90\nMath,80\nPython,100", output: "Python 95.0\nMath 80.0" },
+      { id: 18, level: "hard", title: "18-тапсырма. CSV тазалау", text: "Үтірмен бөлінген баллдар ішінде бос мәндер болуы мүмкін. Бос мәндерді өткізіп, орташа мәнді шығарыңыз.", input: "80,,90,70,", output: "80.0" },
+      { id: 20, level: "hard", title: "20-тапсырма. Қорытынды есеп", text: "CSV бағаларынан ең жоғары, ең төмен, орташа мәнді және диапазонды шығарыңыз.", input: "80,90,70", output: "90 70 80.0 20" }
+    ];
+
+    const levelNames = {
+      easy: "Жеңіл деңгей",
+      medium: "Орта деңгей",
+      hard: "Күрделі деңгей"
+    };
+
+    let pyodide = null;
+    let activeTaskId = 1;
+    let isTaskOpen = false;
+    let state = loadCodeState();
+
+    function loadCodeState() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEYS.codeState) || "{}");
+      } catch (error) {
+        return {};
+      }
+    }
+
+    function saveCodeState() {
+      state.activeTaskId = activeTaskId;
+      state.isTaskOpen = isTaskOpen;
+      state.updatedAt = new Date().toISOString();
+      localStorage.setItem(STORAGE_KEYS.currentModule, MODULE_ID);
+      localStorage.setItem(STORAGE_KEYS.codeState, JSON.stringify(state));
+    }
+
+    function syncModuleProgress() {
+      let moduleState = {};
+      try {
+        moduleState = JSON.parse(localStorage.getItem(STORAGE_KEYS.moduleState) || "{}");
+      } catch (error) {
+        moduleState = {};
+      }
+
+      moduleState.visited = moduleState.visited || {};
+      moduleState.visited.code = true;
+      moduleState.updatedAt = new Date().toISOString();
+      localStorage.setItem(STORAGE_KEYS.moduleState, JSON.stringify(moduleState));
+    }
+
+    function renderTabs(filter = "all") {
+      const box = document.getElementById("taskTabs");
+      box.innerHTML = "";
+
+      tasks
+        .filter((task) => filter === "all" || task.level === filter)
+        .forEach((task) => {
+          const button = document.createElement("button");
+          button.className = "task-tab" + (task.id === activeTaskId && isTaskOpen ? " active" : "");
+          button.type = "button";
+          button.textContent = task.id + "-тапсырма";
+          button.onclick = () => selectTask(task.id);
+          box.appendChild(button);
+        });
+    }
+
+    function selectTask(id) {
+      if (activeTaskId === id && isTaskOpen) {
+        isTaskOpen = false;
+        renderTaskDetail();
+        renderTabs(document.querySelector(".level-btn.active").dataset.level);
+        saveCodeState();
+        return;
+      }
+
+      activeTaskId = id;
+      isTaskOpen = true;
+      renderTaskDetail();
+      renderTabs(document.querySelector(".level-btn.active").dataset.level);
+      saveCodeState();
+    }
+
+    function renderTaskDetail() {
+      const detail = document.getElementById("taskDetail");
+      const note = document.getElementById("collapsedNote");
+
+      if (!isTaskOpen) {
+        detail.hidden = true;
+        note.hidden = false;
+        return;
+      }
+
+      fillTaskDetail();
+    }
+
+    function fillTaskDetail() {
+      const task = tasks.find((item) => item.id === activeTaskId);
+      document.getElementById("taskDetail").hidden = false;
+      document.getElementById("collapsedNote").hidden = true;
+      document.getElementById("taskTitle").textContent = task.title;
+      document.getElementById("taskText").textContent = task.text;
+      document.getElementById("taskLevel").textContent = levelNames[task.level];
+      document.getElementById("taskInput").textContent = task.input;
+      document.getElementById("taskOutput").textContent = task.output;
+    }
+
+    function filterLevel(level) {
+      document.querySelectorAll(".level-btn").forEach((button) => {
+        button.classList.toggle("active", button.dataset.level === level);
+      });
+
+      const visibleTasks = tasks.filter((task) => level === "all" || task.level === level);
+      if (!visibleTasks.some((task) => task.id === activeTaskId)) {
+        activeTaskId = visibleTasks[0].id;
+        isTaskOpen = false;
+      }
+      renderTaskDetail();
+      renderTabs(level);
+      saveCodeState();
+    }
+
+    function insertSampleInput() {
+      const task = tasks.find((item) => item.id === activeTaskId);
+      document.getElementById("stdinArea").value = task.input;
+      saveCodeState();
+    }
+
+    function saveWork() {
+      saveCodeState();
+      syncModuleProgress();
+      alert("Жұмыс сақталды.");
+    }
+
+    function clearWorkspace() {
+      if (!confirm("Редактор мен input блогын тазартасыз ба?")) return;
+      document.getElementById("codeArea").value = "";
+      document.getElementById("stdinArea").value = "";
+      document.getElementById("outputArea").textContent = "Нәтиже осы жерде көрсетіледі.";
+      document.getElementById("outputArea").classList.remove("error");
+      saveCodeState();
+    }
+
+    async function initPyodide() {
+      const status = document.getElementById("pyodideStatus");
+      const buttons = [document.getElementById("runButton"), document.getElementById("runButtonBottom")];
+
+      try {
+        pyodide = await loadPyodide();
+        status.textContent = "Python дайын";
+        buttons.forEach((button) => button.disabled = false);
+        document.getElementById("outputArea").textContent = "Python дайын. Кодты жазып, Run батырмасын басыңыз.";
+      } catch (error) {
+        status.textContent = "Python жүктелмеді";
+        document.getElementById("outputArea").textContent = "Pyodide жүктелмеді. Интернет байланысын тексеріңіз.";
+        document.getElementById("outputArea").classList.add("error");
+      }
+    }
+
+    async function runPython() {
+      const code = document.getElementById("codeArea").value;
+      const inputData = document.getElementById("stdinArea").value;
+      const output = document.getElementById("outputArea");
+
+      if (!pyodide) {
+        output.textContent = "Python әлі дайын емес.";
+        return;
+      }
+
+      output.classList.remove("error");
+      output.textContent = "Код орындалуда...";
+      saveCodeState();
+
+      pyodide.globals.set("user_code", code);
+      pyodide.globals.set("input_data", inputData);
+
+      const runner = `
+import sys, io, builtins, traceback, json
+_input_lines = str(input_data).splitlines()
+_input_index = 0
+
+def _custom_input(prompt=""):
+    global _input_index
+    if _input_index < len(_input_lines):
+        value = _input_lines[_input_index]
+        _input_index += 1
+        return value
+    return ""
+
+_old_input = builtins.input
+_old_stdout = sys.stdout
+_output = io.StringIO()
+_error = ""
+builtins.input = _custom_input
+sys.stdout = _output
+
+try:
+    exec(user_code, {})
+except Exception:
+    _error = traceback.format_exc()
+finally:
+    builtins.input = _old_input
+    sys.stdout = _old_stdout
+
+json.dumps({"stdout": _output.getvalue(), "error": _error})
+`;
+
+      try {
+        const result = JSON.parse(await pyodide.runPythonAsync(runner));
+        if (result.error) {
+          output.textContent = result.error;
+          output.classList.add("error");
+        } else {
+          output.textContent = result.stdout || "Нәтиже жоқ.";
+        }
+      } catch (error) {
+        output.textContent = String(error);
+        output.classList.add("error");
+      }
+    }
+
+    function init() {
+      localStorage.setItem(STORAGE_KEYS.currentModule, MODULE_ID);
+      syncModuleProgress();
+      activeTaskId = Number(state.activeTaskId || 1);
+      isTaskOpen = false;
+      document.getElementById("codeArea").value = "";
+      document.getElementById("stdinArea").value = "";
+      renderTabs();
+      loadPedagogyReflection();
+      renderTaskDetail();
+      initPyodide();
+    }
+
+    document.addEventListener("input", (event) => {
+      if (event.target.id === "codeArea" || event.target.id === "stdinArea") {
+        saveCodeState();
+      }
+    });
+
+    init();
+  </script>
+</body>
+</html>

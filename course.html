@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OI_SANA | Курс картасы</title>
+
+  <style>
+    :root {
+      --blue-deep: #071b3d;
+      --blue-main: #0b2a5b;
+      --blue-soft: #123f7a;
+      --emerald: #10b981;
+      --emerald-dark: #047857;
+      --emerald-soft: #d1fae5;
+      --white: #ffffff;
+      --gray-bg: #f4f7fb;
+      --gray-card: #eef3f8;
+      --gray-border: #d9e2ec;
+      --text-main: #172033;
+      --text-muted: #64748b;
+      --shadow-soft: 0 22px 50px rgba(7, 27, 61, 0.14);
+      --shadow-card: 0 14px 35px rgba(7, 27, 61, 0.10);
+      --radius-xl: 32px;
+      --radius-lg: 22px;
+      --radius-md: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: var(--gray-bg);
+      color: var(--text-main);
+      line-height: 1.55;
+      text-rendering: optimizeLegibility;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+    }
+
+    :focus-visible {
+      outline: 3px solid rgba(16, 185, 129, 0.42);
+      outline-offset: 3px;
+    }
+
+    .page {
+      min-height: 100vh;
+    }
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.94);
+      border-bottom: 1px solid var(--gray-border);
+      backdrop-filter: blur(16px);
+    }
+
+    .header-inner {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 14px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 310px;
+    }
+
+    .logo-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 15px;
+      background: linear-gradient(135deg, var(--emerald), var(--emerald-dark));
+      color: var(--white);
+      display: grid;
+      place-items: center;
+      font-size: 23px;
+      font-weight: 900;
+      box-shadow: 0 12px 28px rgba(16, 185, 129, 0.28);
+      flex: 0 0 auto;
+    }
+
+    .logo-text strong {
+      display: block;
+      color: var(--blue-deep);
+      font-size: 22px;
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .logo-text span {
+      display: block;
+      max-width: 470px;
+      margin-top: 7px;
+      color: var(--text-muted);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      color: #334155;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .nav a {
+      position: relative;
+      padding: 6px 0;
+      transition: color 0.2s ease;
+    }
+
+    .nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 2px;
+      border-radius: 999px;
+      background: var(--emerald);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.2s ease;
+    }
+
+    .nav a:hover {
+      color: var(--emerald-dark);
+    }
+
+    .nav a:hover::after {
+      transform: scaleX(1);
+    }
+
+    .student-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 15px;
+      border-radius: 999px;
+      background: var(--emerald-soft);
+      color: var(--emerald-dark);
+      font-size: 13px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .student-pill span {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--emerald);
+    }
+
+    .layout {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 28px;
+      display: grid;
+      grid-template-columns: 320px minmax(0, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .sidebar,
+    .main-card {
+      border: 1px solid var(--gray-border);
+      border-radius: var(--radius-xl);
+      background: var(--white);
+      box-shadow: var(--shadow-card);
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 92px;
+      height: fit-content;
+      padding: 22px;
+    }
+
+    .sidebar-title {
+      color: var(--blue-deep);
+      font-size: 20px;
+      line-height: 1.25;
+      margin-bottom: 7px;
+    }
+
+    .sidebar-subtitle {
+      color: var(--text-muted);
+      font-size: 13px;
+      margin-bottom: 18px;
+    }
+
+    .student-box {
+      margin-bottom: 16px;
+      padding: 18px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, var(--blue-deep), var(--blue-main));
+      color: var(--white);
+    }
+
+    .student-box small {
+      color: rgba(255, 255, 255, 0.70);
+      font-weight: 800;
+    }
+
+    .student-box strong {
+      display: block;
+      margin-top: 7px;
+      font-size: 18px;
+      line-height: 1.25;
+    }
+
+    .student-box span {
+      display: block;
+      margin-top: 5px;
+      color: #a7f3d0;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .progress-panel {
+      margin-bottom: 16px;
+      padding: 16px;
+      border: 1px solid var(--gray-border);
+      border-radius: 20px;
+      background: #f8fafc;
+    }
+
+    .progress-panel h3 {
+      color: var(--blue-deep);
+      font-size: 18px;
+      line-height: 1.25;
+      margin-bottom: 13px;
+    }
+
+    .progress-row {
+      display: grid;
+      grid-template-columns: 86px 1fr 40px;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+      color: var(--blue-deep);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .bar {
+      height: 9px;
+      border-radius: 999px;
+      background: #e2e8f0;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--emerald), var(--emerald-dark));
+      transition: width 0.2s ease;
+    }
+
+    .overall-score {
+      margin-top: 16px;
+      padding: 18px;
+      border-radius: 18px;
+      background: var(--emerald-soft);
+      color: var(--emerald-dark);
+      text-align: center;
+    }
+
+    .overall-score strong {
+      display: block;
+      font-size: 42px;
+      line-height: 1;
+    }
+
+    .overall-score span {
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .small-action {
+      width: 100%;
+      margin-top: 10px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: var(--emerald-soft);
+      color: var(--emerald-dark);
+      font-weight: 900;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .small-action.secondary {
+      background: #edf2f7;
+      color: var(--blue-main);
+    }
+
+    .small-action:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 22px rgba(7, 27, 61, 0.10);
+    }
+
+    .main-card {
+      overflow: hidden;
+    }
+
+    .hero {
+      position: relative;
+      padding: 36px;
+      background:
+        radial-gradient(circle at 88% 18%, rgba(16, 185, 129, 0.25), transparent 30%),
+        linear-gradient(135deg, var(--blue-deep), var(--blue-main));
+      color: var(--white);
+    }
+
+    .hero-kicker {
+      width: fit-content;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 17px;
+      padding: 8px 13px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.10);
+      color: #a7f3d0;
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .hero-kicker::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--emerald);
+    }
+
+    .hero h1 {
+      max-width: 880px;
+      color: var(--white);
+      font-size: 38px;
+      line-height: 1.15;
+      letter-spacing: 0;
+    }
+
+    .hero p {
+      max-width: 900px;
+      margin-top: 14px;
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 16px;
+    }
+
+    .hero-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 24px;
+      max-width: 900px;
+    }
+
+    .metric-card {
+      padding: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .metric-card strong {
+      display: block;
+      color: var(--emerald);
+      font-size: 24px;
+      line-height: 1;
+    }
+
+    .metric-card span {
+      display: block;
+      margin-top: 8px;
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .section-block {
+      padding: 28px 28px 10px;
+    }
+
+    .section-title {
+      color: var(--blue-deep);
+      font-size: 28px;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .section-text {
+      max-width: 920px;
+      color: var(--text-muted);
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    .course-tools {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 12px;
+      margin: 0 28px 22px;
+    }
+
+    .course-search {
+      width: 100%;
+      min-height: 48px;
+      border: 1px solid var(--gray-border);
+      border-radius: 16px;
+      padding: 0 15px;
+      background: #f8fafc;
+      color: var(--text-main);
+      outline: none;
+      transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .course-search:focus {
+      background: var(--white);
+      border-color: var(--emerald);
+      box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.12);
+    }
+
+    .course-summary {
+      padding: 13px 15px;
+      border-radius: 16px;
+      background: var(--blue-deep);
+      color: var(--white);
+      font-size: 13px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .course-map-wrap {
+      padding: 0 28px 30px;
+    }
+
+    .course-map {
+      position: relative;
+      display: grid;
+      gap: 16px;
+      padding: 6px 0;
+    }
+
+    .course-map::before {
+      content: "";
+      position: absolute;
+      left: 37px;
+      top: 20px;
+      bottom: 20px;
+      width: 4px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, var(--emerald), var(--blue-main));
+      opacity: 0.55;
+    }
+
+    .road-step {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 78px minmax(0, 1fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .road-badge {
+      width: 78px;
+      height: 78px;
+      display: grid;
+      place-items: center;
+      border: 8px solid var(--white);
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--emerald), var(--emerald-dark));
+      color: var(--white);
+      box-shadow: 0 12px 24px rgba(7, 27, 61, 0.16);
+      font-size: 17px;
+      font-weight: 900;
+    }
+
+    .road-link {
+      display: block;
+    }
+
+    .road-card {
+      min-height: 108px;
+      height: 100%;
+      padding: 18px;
+      border: 1px solid var(--gray-border);
+      border-radius: 20px;
+      background: #f8fafc;
+      outline: 0 solid transparent;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .road-card:hover,
+    .road-link:focus-visible .road-card {
+      transform: translateY(-2px);
+      background: var(--white);
+      border-color: rgba(16, 185, 129, 0.45);
+      box-shadow: var(--shadow-card);
+    }
+
+    .road-card.done {
+      border-color: rgba(16, 185, 129, 0.45);
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.10);
+    }
+
+    .road-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .road-index {
+      color: var(--blue-deep);
+      font-size: 29px;
+      line-height: 1;
+      font-weight: 900;
+    }
+
+    .road-status {
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--emerald-soft);
+      color: var(--emerald-dark);
+      font-size: 11px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .road-card h3 {
+      color: var(--blue-deep);
+      font-size: 18px;
+      line-height: 1.25;
+      margin-bottom: 6px;
+    }
+
+    .road-card p {
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    .road-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .road-meta span {
+      padding: 6px 9px;
+      border-radius: 999px;
+      background: var(--emerald-soft);
+      color: var(--emerald-dark);
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    @media (max-width: 1180px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+      }
+    }
+
+    @media (max-width: 860px) {
+      .header-inner {
+        padding: 12px 16px;
+      }
+
+      .nav {
+        display: none;
+      }
+
+      .logo {
+        min-width: auto;
+      }
+
+      .logo-text strong {
+        font-size: 18px;
+      }
+
+      .logo-text span {
+        display: none;
+      }
+
+      .student-pill {
+        font-size: 12px;
+        padding: 8px 10px;
+      }
+
+      .layout {
+        padding: 16px;
+        gap: 16px;
+      }
+
+      .hero {
+        padding: 26px 20px;
+      }
+
+      .hero h1 {
+        font-size: 28px;
+      }
+
+      .hero-metrics {
+        grid-template-columns: 1fr;
+      }
+
+      .section-block,
+      .course-map-wrap {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .course-tools {
+        grid-template-columns: 1fr;
+        margin-left: 18px;
+        margin-right: 18px;
+      }
+
+      .course-summary {
+        white-space: normal;
+      }
+
+      .course-map::before {
+        left: 31px;
+      }
+
+      .road-step {
+        grid-template-columns: 64px minmax(0, 1fr);
+        gap: 12px;
+      }
+
+      .road-badge {
+        width: 64px;
+        height: 64px;
+        border-width: 6px;
+        font-size: 15px;
+      }
+
+      .road-index {
+        font-size: 24px;
+      }
+
+      .progress-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .student-pill {
+        display: none;
+      }
+
+      .hero h1 {
+        font-size: 24px;
+      }
+
+      .road-step {
+        grid-template-columns: 1fr;
+      }
+
+      .course-map::before {
+        display: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="header">
+      <div class="header-inner">
+        <a href="index.html" class="logo" aria-label="OI_SANA басты бет">
+          <div class="logo-icon">OS</div>
+          <div class="logo-text">
+            <strong>OI_SANA</strong>
+            <span>логикалық-алгоритмдік ойлау дағдысын дамытуға бағытталған оқу құралы</span>
+          </div>
+        </a>
+
+        <nav class="nav" aria-label="Курс мәзірі">
+          <a href="index.html">Басты бет</a>
+          <a href="#courseMap">Курс картасы</a>
+        </nav>
+
+        <div class="student-pill">
+          <span aria-hidden="true"></span>
+          <b id="headerStudentName">Студент</b>
+        </div>
+      </div>
+    </header>
+
+    <main class="layout">
+      <aside class="sidebar">
+        <h2 class="sidebar-title">Курс басқару панелі</h2>
+        <p class="sidebar-subtitle">Тіркелген студент және ағымдағы прогресс</p>
+
+        <div class="student-box">
+          <small>Студент</small>
+          <strong id="studentNameView">Демо студент</strong>
+          <span id="studentGroupView">DEMO-01</span>
+        </div>
+
+        <div class="progress-panel">
+          <h3>Ағымдағы модуль прогресі</h3>
+
+          <div class="progress-row">
+            <span>Тест</span>
+            <div class="bar"><div class="bar-fill" id="quizBar" style="width: 0%;"></div></div>
+            <b id="quizPercent">0</b>
+          </div>
+
+          <div class="progress-row">
+            <span>Код</span>
+            <div class="bar"><div class="bar-fill" id="codeBar" style="width: 0%;"></div></div>
+            <b id="codePercent">0</b>
+          </div>
+
+          <div class="progress-row">
+            <span>Debug</span>
+            <div class="bar"><div class="bar-fill" id="debugBar" style="width: 0%;"></div></div>
+            <b id="debugPercent">0</b>
+          </div>
+
+          <div class="progress-row">
+            <span>Parsons</span>
+            <div class="bar"><div class="bar-fill" id="parsonsBar" style="width: 0%;"></div></div>
+            <b id="parsonsPercent">0</b>
+          </div>
+
+          <div class="progress-row">
+            <span>Рефл.</span>
+            <div class="bar"><div class="bar-fill" id="reflectionBar" style="width: 0%;"></div></div>
+            <b id="reflectionPercent">0</b>
+          </div>
+
+          <div class="overall-score">
+            <strong id="moduleScoreView">0</strong>
+            <span>модуль балы</span>
+          </div>
+        </div>
+
+        <button class="small-action" type="button" onclick="saveProgressOnly()">Прогресті сақтау</button>
+        <button class="small-action secondary" type="button" onclick="exportCSV()">CSV экспорт</button>
+      </aside>
+
+      <section class="main-card">
+        <div class="hero">
+          <div class="hero-kicker">Курс картасы</div>
+          <h1>Python арқылы логикалық-алгоритмдік ойлауды кезең-кезеңмен дамыту</h1>
+          <p>
+            Оқу курсы диагностикалық тесттен басталады. Негізгі тапсырмалар 2-модульден 15-модульге дейін жеке HTML-беттерде орындалады.
+          </p>
+
+          <div class="hero-metrics">
+            <div class="metric-card">
+              <strong>1</strong>
+              <span>диагностикалық тест Google Forms арқылы</span>
+            </div>
+            <div class="metric-card">
+              <strong>14</strong>
+              <span>оқу модулі module_02.html файлынан басталады</span>
+            </div>
+            <div class="metric-card">
+              <strong>6</strong>
+              <span>бағалау компоненті: тест, код, debug, Parsons, рефлексия, педагогика</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-block">
+          <h2 class="section-title">Модульдер тізбегі</h2>
+          <p class="section-text">Модульді атауы бойынша іздеңіз немесе картадан таңдаңыз. 1-модуль сыртқы диагностикалық тестке апарады.</p>
+        </div>
+
+        <div class="course-tools">
+          <input class="course-search" id="courseSearch" type="search" placeholder="Модульді атауы бойынша іздеу..." autocomplete="off" />
+          <div class="course-summary" id="courseSummary">0/15 модуль аяқталды</div>
+        </div>
+
+        <div class="course-map-wrap" id="courseMap">
+          <div class="course-map" id="courseMapList"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const STORAGE_KEYS = {
+      student: "pythonLaoStudent",
+      progress: "pythonLaoProgress",
+      currentModule: "pythonLaoCurrentModule"
+    };
+
+    const MODULES = [
+      {
+        id: "module_01",
+        number: 1,
+        title: "Диагностикалық тест",
+        text: "Бастапқы деңгейді анықтау. Тест Google Forms арқылы ашылады.",
+        url: "https://forms.gle/mEFLMLkQHCJCpxKd6",
+        external: true,
+        status: "Google Forms",
+        meta: "Сыртқы тест"
+      },
+      {
+        id: "module_02",
+        number: 2,
+        title: "Сызықтық алгоритмдер",
+        text: "Қадамдық орындау, input/output және қарапайым есептер.",
+        url: "module_02.html",
+        meta: "Оқу модулі"
+      },
+      {
+        id: "module_03",
+        number: 3,
+        title: "Шартты операторлар",
+        text: "if, elif, else арқылы шартқа байланысты шешім қабылдау.",
+        url: "module_03.html",
+        meta: "Оқу модулі"
+      },
+      {
+        id: "module_04",
+        number: 4,
+        title: "Логикалық операторлар",
+        text: "and, or, not операторлары және күрделі шарттар.",
+        url: "module_04.html",
+        meta: "Оқу модулі"
+      },
+      {
+        id: "module_05",
+        number: 5,
+        title: "Циклдер",
+        text: "for және while циклдері арқылы қайталанатын әрекеттерді құру.",
+        url: "module_05.html",
+        meta: "Оқу модулі"
+      },
+      {
+        id: "module_06",
+        number: 6,
+        title: "Debugging және трассировка",
+        text: "Қатені табу, орындау барысын бақылау және түсіндіру.",
+        url: "module_06.html",
+        meta: "Оқу модулі"
+      },
+      {
+        id: "module_07",
+        number: 7,
+        title: "Функциялар",
+        text: "Есепті бөлікке бөлу және функциялар арқылы қайта қолдану.",
+        url: "module_07.html",
+        meta: "Оқу модулі"
+      },
+      {
+        id: "module_08",
+        number: 8,
+        title: "Тізімдер және сөздіктер",
+        text: "Деректер құрылымдарын таңдау, өңдеу және салыстыру.",
+        url: "module_08.html",
+        meta: "Оқу модулі"
+      },
+      {
+        id: "module_09",
+        number: 9,
+        title: "Файлдар және CSV",
+        text: "Файлдан оқу, жазу және кестелік деректермен жұмыс.",
+        url: "module_09.html",
+        meta: "Оқу модулі"
+      },
+      {
+        id: "module_10",
+        number: 10,
+        title: "Визуализация",
+        text: "Нәтижені график, диаграмма және көрнекі талдау арқылы түсіндіру.",
+        url: "module_10.html",
+        meta: "Оқу модулі"
+      },
+      {
+        id: "module_11",
+        number: 11,
+        title: "Объектіге бағытталған бағдарламалау",
+        text: "Класс, объект, қасиет және әдіс ұғымдарын қолдану.",
+        url: "module_11.html",
+        meta: "Оқу модулі"
+      },
+      {
+        id: "module_12",
+        number: 12,
+        title: "Жолдармен жұмыс",
+        text: "Мәтіндік деректерді талдау, іздеу және түрлендіру.",
+        url: "module_12.html",
+        meta: "Оқу модулі"
+      },
+      {
+        id: "module_13",
+        number: 13,
+        title: "Модульдер мен кітапханалар",
+        text: "Дайын кітапханаларды таңдау және қолдану.",
+        url: "module_13.html",
+        meta: "Оқу модулі"
+      },
+      {
+        id: "module_14",
+        number: 14,
+        title: "Деректер ғылымы негіздері",
+        text: "Деректерді оқу, сүзу, топтау және қорытынды шығару.",
+        url: "module_14.html",
+        meta: "Оқу модулі"
+      },
+      {
+        id: "module_15",
+        number: 15,
+        title: "Қорытынды жоба",
+        text: "Бірнеше алгоритмдік тәсілді біріктіріп, толық жоба құру.",
+        url: "module_15.html",
+        meta: "Жоба"
+      }
+    ];
+
+    function loadStudent() {
+      const stored = localStorage.getItem(STORAGE_KEYS.student);
+
+      if (!stored) {
+        const demoStudent = {
+          name: "Демо студент",
+          group: "DEMO-01",
+          role: "student",
+          startedAt: new Date().toISOString()
+        };
+        localStorage.setItem(STORAGE_KEYS.student, JSON.stringify(demoStudent));
+        return demoStudent;
+      }
+
+      try {
+        return JSON.parse(stored);
+      } catch {
+        localStorage.removeItem(STORAGE_KEYS.student);
+        return loadStudent();
+      }
+    }
+
+    function createInitialProgress() {
+      return {
+        completedModules: [],
+        moduleScores: {},
+        reflections: {},
+        exports: [],
+        lastVisited: "module_02",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      };
+    }
+
+    function loadProgress() {
+      const stored = localStorage.getItem(STORAGE_KEYS.progress);
+
+      if (!stored) {
+        const initial = createInitialProgress();
+        localStorage.setItem(STORAGE_KEYS.progress, JSON.stringify(initial));
+        return initial;
+      }
+
+      try {
+        return JSON.parse(stored);
+      } catch {
+        const initial = createInitialProgress();
+        localStorage.setItem(STORAGE_KEYS.progress, JSON.stringify(initial));
+        return initial;
+      }
+    }
+
+    function renderStudent() {
+      const student = loadStudent();
+      document.getElementById("headerStudentName").textContent = student.name;
+      document.getElementById("studentNameView").textContent = student.name;
+      document.getElementById("studentGroupView").textContent = student.group;
+    }
+
+    function renderProgressFromLastModule() {
+      const progress = loadProgress();
+      const lastModuleId = progress.lastVisited || "module_02";
+      const moduleState = progress.moduleScores?.[lastModuleId] || {};
+
+      const quiz = moduleState.quiz || 0;
+      const code = moduleState.code || 0;
+      const debug = moduleState.debug || 0;
+      const parsons = moduleState.parsons || 0;
+      const reflection = Math.round(((moduleState.reflection || 0) + (moduleState.pedagogy || 0)) / 2);
+      const moduleScore = moduleState.moduleScore || 0;
+
+      setBar("quiz", quiz);
+      setBar("code", code);
+      setBar("debug", debug);
+      setBar("parsons", parsons);
+      setBar("reflection", reflection);
+
+      document.getElementById("moduleScoreView").textContent = moduleScore;
+    }
+
+    function setBar(name, value) {
+      document.getElementById(name + "Bar").style.width = value + "%";
+      document.getElementById(name + "Percent").textContent = value;
+    }
+
+    function renderRoadmap() {
+      const progress = loadProgress();
+      const container = document.getElementById("courseMapList");
+      container.innerHTML = "";
+
+      MODULES.forEach(module => {
+        const savedScore = progress.moduleScores?.[module.id]?.moduleScore || 0;
+        const done = savedScore >= 60;
+
+        const step = document.createElement("div");
+        step.className = "road-step";
+
+        const badge = document.createElement("div");
+        badge.className = "road-badge";
+        badge.textContent = String(module.number).padStart(2, "0");
+
+        const link = document.createElement("a");
+        link.className = "road-link";
+        link.href = module.url;
+
+        if (module.external) {
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+        }
+
+        link.addEventListener("click", () => {
+          localStorage.setItem(STORAGE_KEYS.currentModule, module.id);
+          const progressData = loadProgress();
+          progressData.lastVisited = module.id === "module_01" ? "module_02" : module.id;
+          progressData.updatedAt = new Date().toISOString();
+          localStorage.setItem(STORAGE_KEYS.progress, JSON.stringify(progressData));
+        });
+
+        const card = document.createElement("div");
+        card.className = "road-card";
+        if (done) {
+          card.classList.add("done");
+        }
+
+        const status = module.status || (done ? "Аяқталды" : "Ашу");
+        card.dataset.title = (module.title + " " + module.text + " " + module.meta).toLowerCase();
+
+        card.innerHTML = `
+          <div class="road-top">
+            <div class="road-index">${String(module.number).padStart(2, "0")}</div>
+            <div class="road-status">${status}</div>
+          </div>
+          <h3>${module.title}</h3>
+          <p>${module.text}</p>
+          <div class="road-meta">
+            <span>${module.meta}</span>
+            <span>${module.external ? "Сыртқы сілтеме" : module.url}</span>
+          </div>
+        `;
+
+        link.appendChild(card);
+        step.appendChild(badge);
+        step.appendChild(link);
+        container.appendChild(step);
+      });
+
+      const completedCount = MODULES.filter(module => (progress.moduleScores?.[module.id]?.moduleScore || 0) >= 60).length;
+      document.getElementById("courseSummary").textContent = completedCount + "/" + MODULES.length + " модуль аяқталды";
+    }
+
+    function setupCourseSearch() {
+      const input = document.getElementById("courseSearch");
+      if (!input) return;
+
+      input.addEventListener("input", function () {
+        const query = input.value.trim().toLowerCase();
+        document.querySelectorAll(".road-step").forEach(function (step) {
+          const card = step.querySelector(".road-card");
+          const match = !query || card.dataset.title.includes(query);
+          step.style.display = match ? "grid" : "none";
+        });
+      });
+    }
+
+    function saveProgressOnly() {
+      const progress = loadProgress();
+      progress.updatedAt = new Date().toISOString();
+      localStorage.setItem(STORAGE_KEYS.progress, JSON.stringify(progress));
+      alert("Прогресс сақталды.");
+    }
+
+    function escapeCSV(value) {
+      const text = String(value ?? "");
+      return `"${text.replaceAll('"', '""')}"`;
+    }
+
+    function exportCSV() {
+      const student = loadStudent();
+      const progress = loadProgress();
+
+      const rows = [];
+
+      for (const module of MODULES) {
+        const result = progress.moduleScores?.[module.id] || {};
+
+        rows.push([
+          student.name,
+          student.group,
+          module.id,
+          module.title,
+          result.quiz || 0,
+          result.code || 0,
+          result.debug || 0,
+          result.parsons || 0,
+          result.reflection || 0,
+          result.pedagogy || 0,
+          result.moduleScore || 0
+        ]);
+      }
+
+      const headers = [
+        "studentName",
+        "group",
+        "moduleId",
+        "moduleTitle",
+        "quiz",
+        "code",
+        "debug",
+        "parsons",
+        "reflection",
+        "pedagogy",
+        "moduleScore"
+      ];
+
+      const csvContent =
+        headers.map(escapeCSV).join(",") + "\n" +
+        rows.map(row => row.map(escapeCSV).join(",")).join("\n");
+
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+
+      link.href = url;
+      link.download = "python_lao_progress.csv";
+      link.click();
+
+      URL.revokeObjectURL(url);
+    }
+
+    function initPage() {
+      renderStudent();
+      renderProgressFromLastModule();
+      renderRoadmap();
+      setupCourseSearch();
+    }
+
+    initPage();
+  </script>
+</body>
+</html>

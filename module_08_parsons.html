@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OI_SANA | Модуль 08 - Parsons</title>
+  <style>
+    :root {
+      --blue-deep: #071b3d;
+      --blue-main: #0b2a5b;
+      --emerald: #10b981;
+      --emerald-dark: #047857;
+      --emerald-soft: #d1fae5;
+      --white: #ffffff;
+      --gray-bg: #f4f7fb;
+      --gray-card: #f8fafc;
+      --gray-border: #d9e2ec;
+      --text-main: #172033;
+      --text-muted: #64748b;
+      --red: #c62828;
+      --green: #087f5b;
+      --amber: #f59e0b;
+      --shadow: 0 18px 45px rgba(7, 27, 61, 0.11);
+      --radius-xl: 28px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background:
+        radial-gradient(circle at 12% 8%, rgba(16, 185, 129, 0.12), transparent 30%),
+        linear-gradient(180deg, #f7fbff 0%, var(--gray-bg) 42%, #eef4fb 100%);
+      color: var(--text-main);
+      line-height: 1.55;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      border: 0;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    :focus-visible {
+      outline: 3px solid rgba(16, 185, 129, 0.45);
+      outline-offset: 3px;
+    }
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: rgba(255, 255, 255, 0.94);
+      border-bottom: 1px solid var(--gray-border);
+      backdrop-filter: blur(18px);
+    }
+
+    .header-inner {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 22px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 290px;
+    }
+
+    .logo-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--emerald), var(--emerald-dark));
+      color: var(--white);
+      font-size: 21px;
+      font-weight: 900;
+      box-shadow: 0 12px 28px rgba(16, 185, 129, 0.27);
+    }
+
+    .logo-text strong {
+      display: block;
+      color: var(--blue-deep);
+      font-size: 21px;
+      line-height: 1;
+    }
+
+    .logo-text span {
+      display: block;
+      margin-top: 6px;
+      color: var(--text-muted);
+      font-size: 12px;
+      line-height: 1.3;
+    }
+
+    .top-nav {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      color: #334155;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .top-nav a:hover {
+      color: var(--emerald-dark);
+    }
+
+    .page {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 28px 24px 46px;
+    }
+
+    .hero,
+    .task-board,
+    .parsons-shell {
+      background: var(--white);
+      border: 1px solid var(--gray-border);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      overflow: hidden;
+      margin-bottom: 22px;
+    }
+
+    .hero-main {
+      padding: 34px 36px;
+      color: var(--white);
+      background:
+        radial-gradient(circle at 88% 16%, rgba(16, 185, 129, 0.32), transparent 30%),
+        linear-gradient(135deg, var(--blue-deep), var(--blue-main));
+    }
+
+    .hero-kicker {
+      width: fit-content;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 16px;
+      padding: 8px 13px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: #a7f3d0;
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .hero-kicker::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--emerald);
+    }
+
+    .hero h1 {
+      max-width: 900px;
+      font-size: 38px;
+      line-height: 1.14;
+      letter-spacing: 0;
+    }
+
+    .hero p {
+      max-width: 900px;
+      margin-top: 14px;
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 16px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 16px 18px;
+      background: var(--gray-card);
+      border-top: 1px solid var(--gray-border);
+    }
+
+    .btn {
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 11px 16px;
+      border-radius: 14px;
+      background: #edf2f7;
+      color: var(--blue-main);
+      font-size: 14px;
+      font-weight: 900;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 22px rgba(7, 27, 61, 0.1);
+    }
+
+    .btn.primary {
+      background: var(--emerald);
+      color: var(--white);
+    }
+
+    .btn.dark {
+      background: var(--blue-deep);
+      color: var(--white);
+    }
+
+    .task-board {
+      margin-bottom: 22px;
+      padding: 22px;
+    }
+
+    .board-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 16px;
+    }
+
+    .board-head h2,
+    .parsons-shell h2 {
+      color: var(--blue-deep);
+      font-size: 24px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .board-head p,
+    .parsons-shell p {
+      max-width: 760px;
+      margin-top: 7px;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    .level-switch {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .level-btn {
+      padding: 10px 13px;
+      border: 1px solid var(--gray-border);
+      border-radius: 999px;
+      background: var(--white);
+      color: var(--blue-main);
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .level-btn.active {
+      border-color: var(--blue-deep);
+      background: var(--blue-deep);
+      color: var(--white);
+    }
+
+    .task-tabs {
+      display: grid;
+      grid-template-columns: repeat(10, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .task-tab {
+      min-height: 42px;
+      padding: 8px 6px;
+      border: 1px solid var(--gray-border);
+      border-radius: 13px;
+      background: var(--gray-card);
+      color: var(--blue-main);
+      font-size: 12px;
+      font-weight: 900;
+      transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+    }
+
+    .task-tab:hover {
+      transform: translateY(-1px);
+      border-color: rgba(16, 185, 129, 0.48);
+      background: var(--white);
+    }
+
+    .task-tab.active {
+      border-color: var(--emerald);
+      background: var(--emerald);
+      color: var(--white);
+    }
+
+    .parsons-shell {
+      padding: 22px;
+    }
+
+    .empty-state {
+      padding: 18px;
+      border: 1px dashed var(--gray-border);
+      border-radius: 18px;
+      background: var(--gray-card);
+      color: var(--text-muted);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .empty-state[hidden],
+    .task-area[hidden] {
+      display: none;
+    }
+
+    .task-info {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 220px;
+      gap: 16px;
+      margin: 18px 0;
+      padding: 18px;
+      border: 1px solid var(--gray-border);
+      border-radius: 20px;
+      background: linear-gradient(180deg, rgba(248, 250, 252, 0.98), rgba(255, 255, 255, 0.98));
+    }
+
+    .task-info h3 {
+      color: var(--blue-deep);
+      font-size: 22px;
+      line-height: 1.25;
+      margin-bottom: 8px;
+    }
+
+    .meta-card {
+      padding: 13px;
+      border-radius: 16px;
+      background: var(--white);
+      border: 1px solid var(--gray-border);
+    }
+
+    .meta-card strong {
+      display: block;
+      color: var(--blue-deep);
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+
+    .meta-card span {
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .parsons-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .line-zone {
+      min-height: 360px;
+      padding: 16px;
+      border: 1px solid var(--gray-border);
+      border-radius: 22px;
+      background: var(--gray-card);
+    }
+
+    .line-zone-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+      color: var(--blue-deep);
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .line-zone-title span {
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .parson-line {
+      width: 100%;
+      display: block;
+      margin-bottom: 9px;
+      padding: 12px 13px;
+      border: 1px solid var(--gray-border);
+      border-radius: 14px;
+      background: var(--white);
+      color: var(--blue-deep);
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 13px;
+      line-height: 1.45;
+      text-align: left;
+      white-space: pre-wrap;
+      transition: transform 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease;
+    }
+
+    .parson-line:hover {
+      transform: translateY(-1px);
+      border-color: rgba(16, 185, 129, 0.6);
+      box-shadow: 0 10px 20px rgba(7, 27, 61, 0.08);
+    }
+
+    .answer-line {
+      background: #ffffff;
+    }
+
+    .message {
+      display: none;
+      margin-top: 14px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: var(--emerald-soft);
+      color: var(--emerald-dark);
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .message.show {
+      display: block;
+    }
+
+    .message.error {
+      background: #fdecec;
+      color: var(--red);
+    }
+
+    .message.warn {
+      background: #fff7ed;
+      color: #92400e;
+    }
+
+    .action-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 1080px) {
+      .task-tabs {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+      }
+
+      .task-info,
+      .parsons-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .header-inner {
+        padding: 12px 16px;
+      }
+
+      .logo {
+        min-width: auto;
+      }
+
+      .logo-text span,
+      .top-nav {
+        display: none;
+      }
+
+      .page {
+        padding: 16px;
+      }
+
+      .hero,
+      .task-board,
+      .parsons-shell {
+        border-radius: 22px;
+      }
+
+      .hero-main {
+        padding: 26px 20px;
+      }
+
+      .hero h1 {
+        font-size: 29px;
+      }
+
+      .hero-actions,
+      .board-head {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .task-board,
+      .parsons-shell {
+        padding: 16px;
+      }
+
+      .task-tabs {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .line-zone {
+        min-height: 260px;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a class="logo" href="course.html" aria-label="Курс картасына қайту">
+        <div class="logo-icon">OS</div>
+        <div class="logo-text">
+          <strong>OI_SANA</strong>
+          <span>логикалық-алгоритмдік ойлауды Python арқылы дамыту</span>
+        </div>
+      </a>
+      <nav class="top-nav" aria-label="Негізгі навигация">
+        <a href="module_08.html">Модуль 08</a>
+        <a href="course.html">Курс картасы</a>
+        <a href="index.html">Басты бет</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="hero">
+      <div class="hero-main">
+        <div class="hero-kicker">Модуль 08 · Parsons</div>
+        <h1>Тізімдер және сөздіктер: код жолдарын дұрыс ретке келтіру</h1>
+        <p>
+          Parsons тапсырмалары студенттің алгоритм қадамдарын түсінуін дамытады. Код жолдарын банк бөлімінен жауап бөліміне басу арқылы көшіріп,
+          дұрыс реттілік құрыңыз.
+        </p>
+      </div>
+      <div class="hero-actions">
+        <a class="btn" href="module_08.html">Модульге қайту</a>
+        <a class="btn" href="course.html">Курс картасы</a>
+        <button class="btn primary" type="button" onclick="saveProgress()">Прогресті сақтау</button>
+        <button class="btn dark" type="button" onclick="resetCurrentTask()">Ағымдағыны тазарту</button>
+      </div>
+    </section>
+
+    <section class="task-board" aria-label="Тапсырмалар">
+      <div class="board-head">
+        <div>
+          <h2>20 Parsons тапсырмасы</h2>
+          <p>1-5 жеңіл, 6-15 орта, 16-20 күрделі деңгей. Тапсырма батырмасын басқанда төменде реттеу аймағы ашылады.</p>
+        </div>
+        <div class="level-switch" aria-label="Деңгей сүзгісі">
+          <button class="level-btn active" type="button" data-level="all" onclick="filterLevel('all')">Барлығы</button>
+          <button class="level-btn" type="button" data-level="easy" onclick="filterLevel('easy')">Жеңіл</button>
+          <button class="level-btn" type="button" data-level="medium" onclick="filterLevel('medium')">Орта</button>
+          <button class="level-btn" type="button" data-level="hard" onclick="filterLevel('hard')">Күрделі</button>
+        </div>
+      </div>
+      <div class="task-tabs" id="taskTabs"></div>
+    </section>
+
+    <section class="parsons-shell" aria-label="Parsons жұмыс аймағы">
+      <h2>Parsons жұмыс аймағы</h2>
+      <p>Код жолын бассаңыз, ол жауап аймағына өтеді. Жауаптағы жолды қайта бассаңыз, ол банкке қайтады.</p>
+
+      <div class="empty-state" id="emptyState">
+        Тапсырманы бастау үшін жоғарыдағы `1-тапсырма`, `2-тапсырма` ... батырмаларының бірін таңдаңыз.
+      </div>
+
+      <div class="task-area" id="taskArea" hidden>
+        <article class="task-info">
+          <div>
+            <h3 id="taskTitle"></h3>
+            <p id="taskText"></p>
+          </div>
+          <div class="meta-card">
+            <strong>Деңгей</strong>
+            <span id="taskLevel"></span>
+          </div>
+        </article>
+
+        <div class="parsons-grid">
+          <section class="line-zone">
+            <div class="line-zone-title">Аралас код жолдары <span>банк</span></div>
+            <div id="bankZone"></div>
+          </section>
+
+          <section class="line-zone">
+            <div class="line-zone-title">Сіздің жауабыңыз <span>реттелген код</span></div>
+            <div id="answerZone"></div>
+          </section>
+        </div>
+
+        <div class="action-row">
+          <button class="btn primary" type="button" onclick="checkCurrentTask()">Тексеру</button>
+          <button class="btn" type="button" onclick="resetCurrentTask()">Қайта бастау</button>
+        </div>
+
+        <div class="message" id="messageBox"></div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const MODULE_ID = "module_08";
+    const STORAGE_KEYS = {
+      progress: "pythonLaoProgress",
+      currentModule: "pythonLaoCurrentModule",
+      moduleState: "pythonLaoModuleState_" + MODULE_ID,
+      parsonsState: "pythonLaoModuleState_" + MODULE_ID + "_parsons"
+    };
+
+    const levelNames = {
+      easy: "Жеңіл деңгей",
+      medium: "Орта деңгей",
+      hard: "Күрделі деңгей"
+    };
+
+    const tasks = [
+      {
+        id: 1,
+        level: "easy",
+        title: "1-тапсырма. Тізім қосындысы",
+        text: "n сан енгізіледі. Оларды тізімге жинап, қосындысын шығарыңыз.",
+        lines: [
+                  "n = int(input())",
+                  "items = []",
+                  "for i in range(n):",
+                  "    items.append(int(input()))",
+                  "print(sum(items))"
+        ]
+      },
+      {
+        id: 2,
+        level: "easy",
+        title: "2-тапсырма. Ең үлкен элемент",
+        text: "n саннан тұратын тізімнің ең үлкен элементін табыңыз.",
+        lines: [
+                  "n = int(input())",
+                  "items = []",
+                  "for i in range(n):",
+                  "    items.append(int(input()))",
+                  "print(sum(items))"
+        ]
+      },
+      {
+        id: 3,
+        level: "easy",
+        title: "3-тапсырма. Элемент қосу",
+        text: "Үш саннан тізім құрып, соңына төртінші санды қосып шығарыңыз.",
+        lines: [
+                  "n = int(input())",
+                  "items = []",
+                  "for i in range(n):",
+                  "    items.append(int(input()))",
+                  "print(sum(items))"
+        ]
+      },
+      {
+        id: 4,
+        level: "easy",
+        title: "4-тапсырма. Индекс бойынша алу",
+        text: "Тізімдегі бірінші және соңғы элементті шығарыңыз.",
+        lines: [
+                  "n = int(input())",
+                  "items = []",
+                  "for i in range(n):",
+                  "    items.append(int(input()))",
+                  "print(sum(items))"
+        ]
+      },
+      {
+        id: 5,
+        level: "easy",
+        title: "5-тапсырма. Орташа мән",
+        text: "Тізімдегі сандардың орташа мәнін есептеңіз.",
+        lines: [
+                  "n = int(input())",
+                  "items = []",
+                  "for i in range(n):",
+                  "    items.append(int(input()))",
+                  "print(sum(items))"
+        ]
+      },
+      {
+        id: 6,
+        level: "medium",
+        title: "6-тапсырма. Жұптарды санау",
+        text: "Тізімдегі жұп сандар санын табыңыз.",
+        lines: [
+                  "n = int(input())",
+                  "items = []",
+                  "for i in range(n):",
+                  "    items.append(int(input()))",
+                  "print(sum(items))"
+        ]
+      },
+      {
+        id: 7,
+        level: "medium",
+        title: "7-тапсырма. Кері тізім",
+        text: "Тізімді кері ретпен шығарыңыз.",
+        lines: [
+                  "n = int(input())",
+                  "items = []",
+                  "for i in range(n):",
+                  "    items.append(int(input()))",
+                  "print(sum(items))"
+        ]
+      },
+      {
+        id: 8,
+        level: "medium",
+        title: "8-тапсырма. Сөздік құру",
+        text: "Ат және балл енгізіп, сөздік түрінде шығарыңыз.",
+        lines: [
+                  "n = int(input())",
+                  "items = []",
+                  "for i in range(n):",
+                  "    items.append(int(input()))",
+                  "print(sum(items))"
+        ]
+      },
+      {
+        id: 9,
+        level: "medium",
+        title: "9-тапсырма. Баға іздеу",
+        text: "Оқушы аты бойынша сөздіктен балын шығарыңыз.",
+        lines: [
+                  "n = int(input())",
+                  "items = []",
+                  "for i in range(n):",
+                  "    items.append(int(input()))",
+                  "print(sum(items))"
+        ]
+      },
+      {
+        id: 10,
+        level: "medium",
+        title: "10-тапсырма. Кілт бар ма",
+        text: "Сөздікте берілген кілт бар болса “бар”, әйтпесе “жоқ”.",
+        lines: [
+                  "n = int(input())",
+                  "items = []",
+                  "for i in range(n):",
+                  "    items.append(int(input()))",
+                  "print(sum(items))"
+        ]
+      },
+      {
+        id: 11,
+        level: "medium",
+        title: "11-тапсырма. Минимум",
+        text: "Тізімдегі ең кіші элементті табыңыз.",
+        lines: [
+                  "n = int(input())",
+                  "items = []",
+                  "for i in range(n):",
+                  "    items.append(int(input()))",
+                  "print(sum(items))"
+        ]
+      },
+      {
+        id: 12,
+        level: "medium",
+        title: "12-тапсырма. Сүзгілеу",
+        text: "Тізімнен 10-нан үлкен сандарды шығарыңыз.",
+        lines: [
+                  "n = int(input())",
+                  "items = []",
+                  "for i in range(n):",
+                  "    items.append(int(input()))",
+                  "print(sum(items))"
+        ]
+      },
+      {
+        id: 13,
+        level: "medium",
+        title: "13-тапсырма. Жиілік санау",
+        text: "Мәтіндегі әріптердің жиілігін сөздікпен санаңыз.",
+        lines: [
+                  "n = int(input())",
+                  "items = []",
+                  "for i in range(n):",
+                  "    items.append(int(input()))",
+                  "print(sum(items))"
+        ]
+      },
+      {
+        id: 14,
+        level: "medium",
+        title: "14-тапсырма. Бағаны жаңарту",
+        text: "Сөздіктегі тауар бағасын өзгертіп шығарыңыз.",
+        lines: [
+                  "n = int(input())",
+                  "items = []",
+                  "for i in range(n):",
+                  "    items.append(int(input()))",
+                  "print(sum(items))"
+        ]
+      },
+      {
+        id: 15,
+        level: "medium",
+        title: "15-тапсырма. Екі тізімді біріктіру",
+        text: "Екі қысқа тізімді біріктіріп шығарыңыз.",
+        lines: [
+                  "n = int(input())",
+                  "items = []",
+                  "for i in range(n):",
+                  "    items.append(int(input()))",
+                  "print(sum(items))"
+        ]
+      },
+      {
+        id: 16,
+        level: "hard",
+        title: "16-тапсырма. Сөздік мәндерінің қосындысы",
+        text: "Сөздіктегі барлық мәндердің қосындысын табыңыз.",
+        lines: [
+                  "n = int(input())",
+                  "items = []",
+                  "for i in range(n):",
+                  "    items.append(int(input()))",
+                  "print(sum(items))"
+        ]
+      },
+      {
+        id: 17,
+        level: "hard",
+        title: "17-тапсырма. Ең жоғары балл",
+        text: "Оқушылар сөздігінен ең жоғары балды табыңыз.",
+        lines: [
+                  "n = int(input())",
+                  "items = []",
+                  "for i in range(n):",
+                  "    items.append(int(input()))",
+                  "print(sum(items))"
+        ]
+      },
+      {
+        id: 18,
+        level: "hard",
+        title: "18-тапсырма. Тізімдегі қайталану",
+        text: "Берілген сан тізімде неше рет кездесетінін табыңыз.",
+        lines: [
+                  "n = int(input())",
+                  "items = []",
+                  "for i in range(n):",
+                  "    items.append(int(input()))",
+                  "print(sum(items))"
+        ]
+      },
+      {
+        id: 19,
+        level: "hard",
+        title: "19-тапсырма. Сұрыптау",
+        text: "Тізімді өсу ретімен шығарыңыз.",
+        lines: [
+                  "n = int(input())",
+                  "items = []",
+                  "for i in range(n):",
+                  "    items.append(int(input()))",
+                  "print(sum(items))"
+        ]
+      },
+      {
+        id: 20,
+        level: "hard",
+        title: "20-тапсырма. Құрылымды дерек",
+        text: "Оқушы аты, пәні, балы бойынша сөздік жасап шығарыңыз.",
+        lines: [
+                  "n = int(input())",
+                  "items = []",
+                  "for i in range(n):",
+                  "    items.append(int(input()))",
+                  "print(sum(items))"
+        ]
+      }
+    ];
+
+    let activeTaskId = null;
+    let current = null;
+    let state = loadState();
+
+    function loadState() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEYS.parsonsState) || "{}");
+      } catch (error) {
+        return {};
+      }
+    }
+
+    function saveState() {
+      state.activeTaskId = activeTaskId;
+      state.updatedAt = new Date().toISOString();
+      localStorage.setItem(STORAGE_KEYS.currentModule, MODULE_ID);
+      localStorage.setItem(STORAGE_KEYS.parsonsState, JSON.stringify(state));
+      syncModuleProgress();
+    }
+
+    function syncModuleProgress() {
+      let moduleState = {};
+      try {
+        moduleState = JSON.parse(localStorage.getItem(STORAGE_KEYS.moduleState) || "{}");
+      } catch (error) {
+        moduleState = {};
+      }
+      moduleState.visited = moduleState.visited || {};
+      moduleState.visited.parsons = true;
+      moduleState.updatedAt = new Date().toISOString();
+      localStorage.setItem(STORAGE_KEYS.moduleState, JSON.stringify(moduleState));
+    }
+
+    function shuffle(lines) {
+      const copy = lines.slice();
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function getTask(id) {
+      return tasks.find((task) => task.id === id);
+    }
+
+    function renderTabs(filter = "all") {
+      const box = document.getElementById("taskTabs");
+      box.innerHTML = "";
+
+      tasks
+        .filter((task) => filter === "all" || task.level === filter)
+        .forEach((task) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "task-tab" + (task.id === activeTaskId ? " active" : "");
+          button.textContent = task.id + "-тапсырма";
+          button.onclick = () => openTask(task.id);
+          box.appendChild(button);
+        });
+    }
+
+    function filterLevel(level) {
+      document.querySelectorAll(".level-btn").forEach((button) => {
+        button.classList.toggle("active", button.dataset.level === level);
+      });
+
+      const visible = tasks.filter((task) => level === "all" || task.level === level);
+      if (activeTaskId && !visible.some((task) => task.id === activeTaskId)) {
+        closeTask();
+      }
+      renderTabs(level);
+    }
+
+    function openTask(id) {
+      activeTaskId = id;
+      const task = getTask(id);
+      current = {
+        bank: shuffle(task.lines),
+        answer: []
+      };
+
+      document.getElementById("emptyState").hidden = true;
+      document.getElementById("taskArea").hidden = false;
+      document.getElementById("taskTitle").textContent = task.title;
+      document.getElementById("taskText").textContent = task.text;
+      document.getElementById("taskLevel").textContent = levelNames[task.level];
+      clearMessage();
+      renderLines();
+      renderTabs(document.querySelector(".level-btn.active").dataset.level);
+      saveState();
+    }
+
+    function closeTask() {
+      activeTaskId = null;
+      current = null;
+      document.getElementById("emptyState").hidden = false;
+      document.getElementById("taskArea").hidden = true;
+      renderTabs(document.querySelector(".level-btn.active").dataset.level);
+      saveState();
+    }
+
+    function renderLines() {
+      const bankZone = document.getElementById("bankZone");
+      const answerZone = document.getElementById("answerZone");
+      bankZone.innerHTML = "";
+      answerZone.innerHTML = "";
+
+      current.bank.forEach((line, index) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "parson-line";
+        button.textContent = line;
+        button.onclick = () => moveToAnswer(index);
+        bankZone.appendChild(button);
+      });
+
+      current.answer.forEach((line, index) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "parson-line answer-line";
+        button.textContent = (index + 1) + ". " + line;
+        button.onclick = () => moveToBank(index);
+        answerZone.appendChild(button);
+      });
+    }
+
+    function moveToAnswer(index) {
+      const line = current.bank.splice(index, 1)[0];
+      current.answer.push(line);
+      clearMessage();
+      renderLines();
+    }
+
+    function moveToBank(index) {
+      const line = current.answer.splice(index, 1)[0];
+      current.bank.push(line);
+      clearMessage();
+      renderLines();
+    }
+
+    function checkCurrentTask() {
+      if (!activeTaskId || !current) return;
+
+      const task = getTask(activeTaskId);
+      const message = document.getElementById("messageBox");
+
+      if (current.answer.length !== task.lines.length) {
+        showMessage("Барлық код жолдарын жауап аймағына орналастырыңыз.", "warn");
+        return;
+      }
+
+      const correctCount = task.lines.reduce((count, line, index) => {
+        return count + (current.answer[index] === line ? 1 : 0);
+      }, 0);
+
+      const score = Math.round(correctCount / task.lines.length * 100);
+      state.scores = state.scores || {};
+      state.scores[activeTaskId] = score;
+      saveState();
+
+      if (score === 100) {
+        showMessage("Дұрыс! Код жолдары толық ретімен орналастырылды. Балл: 100.", "success");
+      } else {
+        message.textContent = "Қателер бар. Дұрыс орналасқан жолдар: " + correctCount + "/" + task.lines.length + ". Балл: " + score + ".";
+        message.className = "message show error";
+      }
+    }
+
+    function resetCurrentTask() {
+      if (!activeTaskId) return;
+      openTask(activeTaskId);
+    }
+
+    function showMessage(text, type) {
+      const message = document.getElementById("messageBox");
+      message.textContent = text;
+      message.className = "message show" + (type === "warn" ? " warn" : "");
+    }
+
+    function clearMessage() {
+      const message = document.getElementById("messageBox");
+      message.textContent = "";
+      message.className = "message";
+    }
+
+    function saveProgress() {
+      saveState();
+      alert("Прогресс сақталды.");
+    }
+
+    function init() {
+      localStorage.setItem(STORAGE_KEYS.currentModule, MODULE_ID);
+      syncModuleProgress();
+      renderTabs();
+    }
+
+    init();
+  </script>
+</body>
+</html>
